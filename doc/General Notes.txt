@@ -1,0 +1,5 @@
+Restrictions
+---------------------------------------------
+
+User has only the bare minimum data for this challenge (no address or documents).
+

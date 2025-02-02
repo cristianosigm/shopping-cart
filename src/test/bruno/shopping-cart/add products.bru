@@ -1,0 +1,24 @@
+meta {
+  name: add products
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseURL}}/api/v1/products
+  body: json
+  auth: none
+}
+
+body:json {
+  [
+    {
+      "name": "Product One",
+      "price": 123.45
+    },
+    {
+      "name": "Product Two",
+      "price": 124.45    
+    }
+  ]
+}
