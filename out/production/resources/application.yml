@@ -1,0 +1,24 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: shopping-cart
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/csdb
+    username: shoppingadm
+    password: obiwan
+  devtools:
+    add-properties: false
+  jackson:
+    default-property-inclusion: non_null
+  jpa:
+    hibernate:
+      ddl-auto: create
+    open-in-view: false
+
+logging:
+  level:
+    web: INFO
+

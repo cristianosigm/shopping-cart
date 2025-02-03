@@ -4,6 +4,8 @@ import cs.home.shopping.model.definition.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -14,11 +16,13 @@ import lombok.*;
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
     private Long customerId;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "orderId")
+    private List<OrderItem> items;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;

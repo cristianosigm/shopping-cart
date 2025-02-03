@@ -1,0 +1,28 @@
+meta {
+  name: add products
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseURL}}/api/v1/products
+  body: json
+  auth: none
+}
+
+body:json {
+  [
+    {
+      "name": "T-Shirt",
+      "price": 35.99
+    },
+    {
+      "name": "Jeans",
+      "price": 65.50    
+    },
+    {
+      "name": "Dress",
+      "price": 80.75    
+    }
+  ]
+}

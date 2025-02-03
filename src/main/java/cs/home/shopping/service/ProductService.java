@@ -1,8 +1,8 @@
 package cs.home.shopping.service;
 
-import cs.home.shopping.model.entity.Product;
+import cs.home.shopping.dto.ProductDTO;
+import cs.home.shopping.model.mapper.ProductMapper;
 import cs.home.shopping.model.repository.ProductRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,18 +12,21 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductMapper mapper;
 
     @Autowired
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, ProductMapper mapper) {
         this.productRepository = productRepository;
+        this.mapper = mapper;
     }
 
-    public List<Product> findAll() {
-        return this.productRepository.findAll();
+    public List<ProductDTO> findAll() {
+        return this.mapper.mapToDTO(this.productRepository.findAll());
     }
 
-    @Transactional
-    public List<Product> addAll(List<Product> items) {
-        return this.productRepository.saveAll(items);
+    public List<ProductDTO> addAll(List<ProductDTO> items) {
+        return this.mapper.mapToDTO(this.productRepository.saveAll(this.mapper.mapToEntity(items)));
     }
+
 }
+

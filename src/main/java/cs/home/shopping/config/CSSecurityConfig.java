@@ -1,7 +1,5 @@
 package cs.home.shopping.config;
 
-
-
 public class CSSecurityConfig {
 /*
     @Bean
