@@ -15,5 +15,5 @@ import java.util.List;
 public interface ProductResourceV1 extends ReadResourceV1, DeleteResourceV1 {
 
     @PostMapping
-    ResponseEntity<?> addAll(@RequestBody @Valid List<ProductDTO> items);
+    ResponseEntity<List<ProductDTO>> addAll(@RequestBody @Valid List<ProductDTO> items);
 }

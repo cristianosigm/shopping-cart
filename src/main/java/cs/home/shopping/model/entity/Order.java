@@ -14,6 +14,7 @@ import java.util.List;
 @Builder
 @Table(name = "order", schema = "shopping")
 public class Order {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

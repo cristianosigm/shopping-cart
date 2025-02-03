@@ -1,0 +1,22 @@
+meta {
+  name: applicable promotions
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseURL}}/api/v1/promotions/applicable
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "productIds": [
+      1,
+      2,
+      3
+    ],
+    "forVIP": false
+  }
+}

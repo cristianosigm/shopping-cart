@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 @Builder
 @Table(name = "order_item", schema = "shopping")
 public class OrderItem {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
