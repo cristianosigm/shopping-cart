@@ -24,6 +24,10 @@ public class OrderService {
         return this.mapper.mapToDTO(this.orderRepository.findAll());
     }
 
+    public List<OrderDTO> findByCustomerId(Long customerId) {
+        return this.mapper.mapToDTO(this.orderRepository.findByCustomerId(customerId));
+    }
+
     public OrderDTO save(OrderDTO item) {
         return this.mapper.mapToDTO(this.orderRepository.save(this.mapper.mapToEntity(item)));
     }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="cs.home.shopping.service.CartServiceTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2025-02-03T23:53:51" hostname="CSC-DEV" time="0.026">
+  <properties/>
+  <testcase name="when Products has 1 items and Customer is not VIP then Discount should be 0" classname="cs.home.shopping.service.CartServiceTest" time="0.021"/>
+  <testcase name="when Products has 2 items and Customer is not VIP then Discount should be 0" classname="cs.home.shopping.service.CartServiceTest" time="0.001"/>
+  <testcase name="when Products has 3 items and Customer is not VIP then Discount should be 100" classname="cs.home.shopping.service.CartServiceTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -30,9 +30,14 @@ public class OrderControllerV1 implements OrderResourceV1 {
     public ResponseEntity<?> deleteById(Integer id) {
         return null;
     }
+    
+    @Override
+    public ResponseEntity<List<OrderDTO>> findByCustomerId(Long customerId) {
+        return ResponseEntity.ok(this.orderService.findByCustomerId(customerId));
+    }
 
     @Override
-    public ResponseEntity<List<OrderDTO>> findAll() {
+    public ResponseEntity<?> findAll() {
         return ResponseEntity.ok(this.orderService.findAll());
     }
 

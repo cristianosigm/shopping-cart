@@ -1,7 +1,5 @@
 package cs.home.shopping.dto;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,17 +11,16 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductDTO {
+public class CartItemDTO {
 
     private Long id;
 
-    @NotEmpty
-    private String name;
+    private String productName;
 
-    @NotEmpty
-    private String description;
+    private String productDescription;
 
-    @NotNull
-    private BigDecimal price;
+    private Integer quantity;
+
+    private BigDecimal unitPrice;
 
 }

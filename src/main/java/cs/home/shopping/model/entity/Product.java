@@ -23,6 +23,9 @@ public class Product {
     @NotEmpty
     private String name;
 
+    @NotEmpty
+    private String description;
+
     @NotNull
     private BigDecimal price;
 

@@ -1,5 +1,22 @@
-Restrictions
----------------------------------------------
+Restrictions:
 
-User has only the bare minimum data for this challenge (no address or documents).
+* The entities User, Product, and Promotion have only the bare minimum data required for this challenge (no address or documents).
 
+
+Assumptions:
+
+* The promotion "Get 3 for the price of 2" means that for each 3 items purchased, one is free. Therefore, for 6 items, the customer has 2 items free (and so on).
+
+
+
+Design decisions:
+
+* The "Cart.id" is a simplification of a unique identifier for a given cart. While it is irrelevant for authenticated users, as each user can only have one cart, it is necessary for non-authenticated users. In the latter case, we could use a more sophisticated method to identify this cart, store it in both the database and at our client (for example, in a browser cookie), and only attach it to an user ID after the user has created proper credentials.
+
+Additionally, we could implement a TTL on unauthenticated carts at our persistence layer and subsequently remove them, ensuring that we do not retain old carts that have no chance of being sold.
+
+Another possibility is to consider Prospect Carts as a different domain, and handle them in a separate microservice. This would allow us handle infrastructire settings differently for Customers and Prospects, giving us flexibility to steer our solution according to marketing data, while keeping Customer Carts faster and more reliable in the long term.
+
+* The list of applicable promotions for a given cart is never persisted, as they will only be applied during checkout. Therefore, if the user closes the application and come back in the next day, the promotion analysis needs to be re-done.
+
+* When adding a product which already exists in the cart, I will just sum the added quantity to the existing item.

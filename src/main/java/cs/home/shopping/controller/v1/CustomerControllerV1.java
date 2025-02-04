@@ -4,7 +4,6 @@ import cs.home.shopping.api.v1.CustomerResourceV1;
 import cs.home.shopping.dto.CustomerDTO;
 import cs.home.shopping.service.CustomerService;
 import jakarta.validation.Valid;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,9 +17,8 @@ public class CustomerControllerV1 implements CustomerResourceV1 {
     private final CustomerService customerService;
 
     @Autowired
-    public CustomerControllerV1(CustomerService customerService, ModelMapper mapper) {
+    public CustomerControllerV1(CustomerService customerService) {
         this.customerService = customerService;
-
     }
 
     @Override
