@@ -7,6 +7,7 @@ import cs.home.shopping.service.CartService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,7 +23,10 @@ public class CartControllerV1 implements CartResourceV1 {
     }
 
     @Override
-    public ResponseEntity<SuccessResponseDTO> addProduct(@RequestHeader("customerId") Long customerId, Long productId, Integer quantity) {
+    public ResponseEntity<SuccessResponseDTO> addProduct(
+            @RequestHeader("customerId") Long customerId,
+            @PathVariable("productId") Long productId,
+            @PathVariable("quantity") Integer quantity) {
         this.cartService.addProduct(customerId, productId, quantity);
         return ResponseEntity.ok(SuccessResponseDTO.builder().message("Product added.").build());
     }
