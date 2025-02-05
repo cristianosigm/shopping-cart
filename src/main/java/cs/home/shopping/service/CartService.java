@@ -1,14 +1,12 @@
 package cs.home.shopping.service;
 
 import cs.home.shopping.dto.CartDTO;
-import cs.home.shopping.dto.CartItemDTO;
 import cs.home.shopping.model.entity.Cart;
 import cs.home.shopping.model.entity.CartItem;
 import cs.home.shopping.model.entity.Product;
 import cs.home.shopping.model.entity.Promotion;
 import cs.home.shopping.model.mapper.CartMapper;
 import cs.home.shopping.model.mapper.PromotionMapper;
-import cs.home.shopping.model.repository.CartItemRepository;
 import cs.home.shopping.model.repository.CartRepository;
 import cs.home.shopping.model.repository.ProductRepository;
 import cs.home.shopping.model.repository.PromotionRepository;
@@ -27,19 +25,19 @@ public class CartService {
 
     // TODO: use parallelStream wherever possible
 
-    private final CartItemRepository cartItemRepository;
     private final CartMapper cartMapper;
     private final CartRepository cartRepository;
     private final PromotionMapper promotionMapper;
+    private final PromotionService promotionService;
     private final PromotionRepository promotionRepository;
     private final ProductRepository productRepository;
 
     @Autowired
-    public CartService(CartMapper cartMapper, CartRepository cartRepository, CartItemRepository cartItemRepository, PromotionMapper promotionMapper, PromotionRepository promotionRepository, ProductRepository productRepository) {
-        this.cartItemRepository = cartItemRepository;
+    public CartService(CartMapper cartMapper, CartRepository cartRepository, PromotionMapper promotionMapper, PromotionService promotionService, PromotionRepository promotionRepository, ProductRepository productRepository) {
         this.cartMapper = cartMapper;
         this.cartRepository = cartRepository;
         this.promotionMapper = promotionMapper;
+        this.promotionService = promotionService;
         this.promotionRepository = promotionRepository;
         this.productRepository = productRepository;
     }
@@ -96,66 +94,28 @@ public class CartService {
 
         if (cart.getItems().size() > 0) {
             // Loading applicable promotions
-            log.info(" >>> loading active promotions where requiresVIP is {}", cart.getCustomerIsVIP());
             final List<Promotion> applicablePromotions = this.promotionRepository.findAllByActiveTrueAndRequiresVIP(cart.getCustomerIsVIP());
-            log.info(" >>> loaded {} promotions.", applicablePromotions.size());
-
-            // Filtering active promotion for items
-            final Promotion itemPromotion = applicablePromotions
-                    .stream()
-                    .filter(pr -> pr.getMinimumQuantity() > 0)
-                    .findFirst().orElse(null);
-
-            // Calculating the discount per item
-            if (itemPromotion != null) {
-                cart.getItems()
-                        .stream()
-                        .filter(cartItem -> cartItem.getQuantity() >= itemPromotion.getMinimumQuantity())
-                        .forEach(cartItem -> cartItem.setDiscount(cartItem.getProduct().getPrice().multiply(
-                                BigDecimal.valueOf(Math.ceil(cartItem.getQuantity() / itemPromotion.getMinimumQuantity())))));
-            }
-
-            // Parsing the CartDTO
-            final CartDTO cartDTO = cartMapper.mapToDTO(cart);
-
-            // Adding the list of applicable promotions
-            cartDTO.setApplicablePromotions(promotionMapper.mapToDTO(applicablePromotions));
 
             // Calculating the total price
-            cartDTO.setTotalPrice(cartDTO.getItems()
+            final BigDecimal totalPrice = cart.getItems()
                     .stream()
-                    .map(item -> item.getProduct().getPrice())
-                    .reduce(BigDecimal.ZERO, BigDecimal::add));
-
-            final BigDecimal itemDiscount = cartDTO.getItems()
-                    .stream()
-                    .map(CartItemDTO::getDiscount)
+                    .map(item -> item.getProduct().getPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
 
+            // Calculating the total item's discount. Can be zero if no rules matched.
+            final BigDecimal itemDiscount = promotionService.calculateDiscountBasedOnItems(cart.getItems(), applicablePromotions);
+
             // Loading active promotion for VIPs and calculating
-            if (cart.getCustomerIsVIP()) {
-                final Promotion vipPromotion = applicablePromotions
-                        .stream()
-                        .filter(pr -> pr.getRequiresVIP())
-                        .findFirst().orElse(null);
+            final BigDecimal vipDiscount = promotionService.calculateDiscountForVIP(
+                    cart.getCustomerIsVIP(), totalPrice, applicablePromotions);
 
-                if (vipPromotion != null
-                        && vipPromotion.getDiscountPercent() != null
-                        && vipPromotion.getDiscountPercent().compareTo(BigDecimal.ZERO) > 0) {
-                    // Deciding which discount would be better
-                    final BigDecimal vipDiscount = cartDTO.getTotalPrice().multiply(
-                            vipPromotion.getDiscountPercent().divide(
-                                    BigDecimal.valueOf(100)));
+            // Parsing the CartDTO and adding the results
+            final CartDTO cartDTO = cartMapper.mapToDTO(cart);
+            cartDTO.setTotalPrice(totalPrice);
+            log.info(" >>>> RESULTS: vipDiscount = {}, itemDiscount = {}; totalPrice = {}", vipDiscount, itemDiscount, totalPrice);
+            cartDTO.setTotalDiscount(vipDiscount.compareTo(itemDiscount) > 0 ? vipDiscount : itemDiscount);
+            cartDTO.setFinalPrice(cartDTO.getTotalPrice().subtract(cartDTO.getTotalDiscount()));
 
-                    if (itemDiscount.compareTo(vipDiscount) > 0) {
-                        cartDTO.setTotalDiscount(itemDiscount);
-                    } else {
-                        cartDTO.setTotalDiscount(vipDiscount);
-                    }
-                }
-            } else {
-                cartDTO.setTotalDiscount(itemDiscount);
-            }
             return cartDTO;
         }
         return cartMapper.mapToDTO(cart);

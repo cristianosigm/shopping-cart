@@ -25,12 +25,12 @@ public class CartDTO {
     private List<CartItemDTO> items = new ArrayList<>();
 
     @Builder.Default
-    private List<PromotionDTO> applicablePromotions = new ArrayList<>();
-
-    @Builder.Default
     private BigDecimal totalPrice = BigDecimal.ZERO;
 
     @Builder.Default
     private BigDecimal totalDiscount = BigDecimal.ZERO;
+
+    @Builder.Default
+    private BigDecimal finalPrice = BigDecimal.ZERO;
 
 }

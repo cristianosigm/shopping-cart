@@ -29,6 +29,10 @@ public class Promotion {
     @Builder.Default
     private Integer minimumQuantity = 0;
 
+    @NotNull
+    @Builder.Default
+    private Integer freeItems = 0;
+
     @Builder.Default
     private Boolean requiresVIP = Boolean.FALSE;
 

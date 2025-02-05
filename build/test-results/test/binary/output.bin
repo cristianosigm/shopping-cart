@@ -1,0 +1,6 @@
+’15:36:10.007 [Test worker] INFO cs.home.shopping.service.CartService --  >>>> RESULTS: vipDiscount = 0, itemDiscount = 35.99; totalPrice = 107.97
+’15:36:10.033 [Test worker] INFO cs.home.shopping.service.CartService --  >>>> RESULTS: vipDiscount = 0, itemDiscount = 35.99; totalPrice = 202.98
+˜15:36:10.046 [Test worker] INFO cs.home.shopping.service.CartService --  >>>> RESULTS: vipDiscount = 36.3375, itemDiscount = 80.75; totalPrice = 242.25
+—15:36:10.055 [Test worker] INFO cs.home.shopping.service.CartService --  >>>> RESULTS: vipDiscount = 43.8750, itemDiscount = 65.5; totalPrice = 292.50
+˜15:36:10.064 [Test worker] INFO cs.home.shopping.service.CartService --  >>>> RESULTS: vipDiscount = 31.4190, itemDiscount = 35.99; totalPrice = 209.46
+˜15:36:10.085 [Test worker] INFO cs.home.shopping.service.CartService --  >>>> RESULTS: vipDiscount = 16.1955, itemDiscount = 35.99; totalPrice = 107.97

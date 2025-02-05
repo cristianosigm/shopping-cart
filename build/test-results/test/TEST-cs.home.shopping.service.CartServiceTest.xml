@@ -1,9 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="cs.home.shopping.service.CartServiceTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2025-02-03T23:53:51" hostname="CSC-DEV" time="0.026">
+<testsuite name="cs.home.shopping.service.CartServiceTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2025-02-05T18:36:09" hostname="CSC-DEV" time="0.224">
   <properties/>
-  <testcase name="when Products has 1 items and Customer is not VIP then Discount should be 0" classname="cs.home.shopping.service.CartServiceTest" time="0.021"/>
+  <testcase name="(ALL) when a regular Customer adds 3 shirts to cart then total should be 71.98" classname="cs.home.shopping.service.CartServiceTest" time="0.087"/>
+  <testcase name="(ALL) when a regular Customer adds 2 shirts and 2 jeans to cart then total should be 166.99" classname="cs.home.shopping.service.CartServiceTest" time="0.009"/>
+  <testcase name="(ALL) when a VIP Customer adds 3 dresses to cart then total should be 161.50" classname="cs.home.shopping.service.CartServiceTest" time="0.01"/>
+  <testcase name="(ALL) when a VIP Customer adds 2 jeans and 2 dresses to cart then total should be 227.00" classname="cs.home.shopping.service.CartServiceTest" time="0.007"/>
+  <testcase name="(ALL) when a VIP Customer adds 4 shirts and 1 jeans to cart then total should be 173.47" classname="cs.home.shopping.service.CartServiceTest" time="0.006"/>
+  <testcase name="(S1) when a regular Customer adds 3 shirts to cart then total should be 71.98" classname="cs.home.shopping.service.CartServiceTest" time="0.018"/>
+  <testcase name="when adding 1 items of Product 1 with vipUSER equals true then the discount should be true " classname="cs.home.shopping.service.CartServiceTest" time="0.003"/>
+  <testcase name="when adding 3 items of Product 2 with vipUSER equals true then the discount should be true " classname="cs.home.shopping.service.CartServiceTest" time="0.0"/>
+  <testcase name="when removing 1 items of Product 1 then result should be true " classname="cs.home.shopping.service.CartServiceTest" time="0.001"/>
+  <testcase name="when removing 3 items of Product 2 then result should be true " classname="cs.home.shopping.service.CartServiceTest" time="0.0"/>
+  <testcase name="when Products has 1 items and Customer is not VIP then Discount should be 0" classname="cs.home.shopping.service.CartServiceTest" time="0.019"/>
   <testcase name="when Products has 2 items and Customer is not VIP then Discount should be 0" classname="cs.home.shopping.service.CartServiceTest" time="0.001"/>
   <testcase name="when Products has 3 items and Customer is not VIP then Discount should be 100" classname="cs.home.shopping.service.CartServiceTest" time="0.001"/>
-  <system-out><![CDATA[]]></system-out>
+  <testcase name="when adding a product that was already added then increase quantity" classname="cs.home.shopping.service.CartServiceTest" time="0.011"/>
+  <system-out><![CDATA[15:36:10.007 [Test worker] INFO cs.home.shopping.service.CartService --  >>>> RESULTS: vipDiscount = 0, itemDiscount = 35.99; totalPrice = 107.97
+15:36:10.033 [Test worker] INFO cs.home.shopping.service.CartService --  >>>> RESULTS: vipDiscount = 0, itemDiscount = 35.99; totalPrice = 202.98
+15:36:10.046 [Test worker] INFO cs.home.shopping.service.CartService --  >>>> RESULTS: vipDiscount = 36.3375, itemDiscount = 80.75; totalPrice = 242.25
+15:36:10.055 [Test worker] INFO cs.home.shopping.service.CartService --  >>>> RESULTS: vipDiscount = 43.8750, itemDiscount = 65.5; totalPrice = 292.50
+15:36:10.064 [Test worker] INFO cs.home.shopping.service.CartService --  >>>> RESULTS: vipDiscount = 31.4190, itemDiscount = 35.99; totalPrice = 209.46
+15:36:10.085 [Test worker] INFO cs.home.shopping.service.CartService --  >>>> RESULTS: vipDiscount = 16.1955, itemDiscount = 35.99; totalPrice = 107.97
+]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

@@ -1,29 +1,65 @@
 package cs.home.shopping.service
 
-import cs.home.shopping.model.entity.Customer
-import spock.lang.Specification
+import cs.home.shopping.dto.CartDTO
+import cs.home.shopping.model.entity.Cart
+import cs.home.shopping.model.mapper.CartMapper
+import cs.home.shopping.model.mapper.PromotionMapper
+import cs.home.shopping.model.repository.CartRepository
+import cs.home.shopping.model.repository.ProductRepository
+import cs.home.shopping.model.repository.PromotionRepository
+import cs.home.shopping.shared.BaseTest
+import org.modelmapper.ModelMapper
 
-class CartServiceTest extends Specification {
+class CartServiceTest extends BaseTest {
 
-    def customerVIP = Customer.builder()
-            .id(1L)
-            .name("Mocked Customer VIP")
-            .isVIP(true)
-            .build()
-    def customerRegular = Customer.builder()
-            .id(2L)
-            .name("Mocked Customer Regular")
-            .isVIP(false)
-            .build()
+    def cartMapper = new CartMapper(new ModelMapper())
+    def promotionMapper = new PromotionMapper(new ModelMapper())
 
-    def "when adding #qty items of Product #productId then result should be #result "() {
+    def cartRepository = Mock(CartRepository)
+    def promotionRepository = Mock(PromotionRepository)
+    def productRepository = Mock(ProductRepository)
+
+    def promotionService = new PromotionService(promotionRepository, promotionMapper)
+    def cartService = new CartService(cartMapper, cartRepository, promotionMapper, promotionService, promotionRepository, productRepository)
+    
+    def promotions = generatePromotions()
+
+    // Challenge tests
+    def "(ALL) when a #customerType Customer adds #items to cart then total should be #expected"() {
+        given:
+        cartRepository.findByCustomerId(_) >> Optional.of(Cart.builder()
+                .id(1)
+                .customerId(1)
+                .customerIsVIP(isVIP)
+                .items(generateItems(nrOfDresses, nrOfJeans, nrOfShirts))
+                .build())
+
+        promotionRepository.findAllByActiveTrueAndRequiresVIP(_) >> promotions
+
+        when:
+        CartDTO response = cartService.loadCart(1)
+
+        then:
+        response.getFinalPrice() == BigDecimal.valueOf(expected)
+
+        where:
+        customerType | items                   | isVIP | nrOfDresses | nrOfJeans | nrOfShirts | expected
+        "regular"    | "3 shirts"              | false | 0           | 0         | 3          | 71.98
+        "regular"    | "2 shirts and 2 jeans"  | false | 0           | 2         | 2          | 166.99
+        "VIP"        | "3 dresses"             | true  | 3           | 0         | 0          | 161.50
+        "VIP"        | "2 jeans and 2 dresses" | true  | 2           | 2         | 0          | 227.00
+        "VIP"        | "4 shirts and 1 jeans"  | true  | 0           | 1         | 4          | 173.47
+    }
+
+    // Additional Tests
+    def "when adding #qty items of Product #productId with vipUSER equals #isvip then the discount should be #result "() {
         expect:
         1 == 1
 
         where:
-        productId | qty | result
-        1         | 1   | true
-        2         | 3   | true
+        productId | qty | isvip | result
+        1         | 1   | true  | true
+        2         | 3   | true  | true
     }
 
     def "when removing #qty items of Product #productId then result should be #result "() {
@@ -56,5 +92,6 @@ class CartServiceTest extends Specification {
         expect:
         1 == 1
     }
+
 
 }
