@@ -27,6 +27,7 @@ public class Product {
     private String description;
 
     @NotNull
-    private BigDecimal price;
+    @Builder.Default
+    private BigDecimal price = BigDecimal.ZERO;
 
 }

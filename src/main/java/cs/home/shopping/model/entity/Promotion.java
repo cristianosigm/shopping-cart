@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.util.List;
+import java.math.BigDecimal;
 
 @Entity
 @Getter
@@ -25,18 +25,18 @@ public class Promotion {
 
     private String description;
 
-    private Integer minimumQuantity;
-
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "promotion_products", joinColumns = @JoinColumn(name = "promotionId"), inverseJoinColumns = @JoinColumn(name = "productId"))
-    private List<Product> eligibleProducts;
+    @NotNull
+    @Builder.Default
+    private Integer minimumQuantity = 0;
 
     @Builder.Default
     private Boolean requiresVIP = Boolean.FALSE;
 
     @NotNull
-    private Integer discountPercent;
+    @Builder.Default
+    private BigDecimal discountPercent = BigDecimal.ZERO;
 
+    @NotNull
     @Builder.Default
     private Boolean active = Boolean.TRUE;
 }

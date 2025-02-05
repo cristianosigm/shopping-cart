@@ -23,10 +23,7 @@ public class CartControllerV1 implements CartResourceV1 {
     }
 
     @Override
-    public ResponseEntity<SuccessResponseDTO> addProduct(
-            @RequestHeader("customerId") Long customerId,
-            @PathVariable("productId") Long productId,
-            @PathVariable("quantity") Integer quantity) {
+    public ResponseEntity<SuccessResponseDTO> addProduct(@RequestHeader("customerId") Long customerId, @PathVariable("productId") Long productId, @PathVariable("quantity") Integer quantity) {
         this.cartService.addProduct(customerId, productId, quantity);
         return ResponseEntity.ok(SuccessResponseDTO.builder().message("Product added.").build());
     }

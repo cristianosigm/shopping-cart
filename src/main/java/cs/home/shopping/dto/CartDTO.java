@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -20,12 +21,16 @@ public class CartDTO {
 
     private Long customerId;
 
-    private List<CartItemDTO> items;
+    @Builder.Default
+    private List<CartItemDTO> items = new ArrayList<>();
 
-    private List<PromotionDTO> applicablePromotions;
+    @Builder.Default
+    private List<PromotionDTO> applicablePromotions = new ArrayList<>();
 
-    private BigDecimal totalPrice;
+    @Builder.Default
+    private BigDecimal totalPrice = BigDecimal.ZERO;
 
-    private BigDecimal totalDiscount;
+    @Builder.Default
+    private BigDecimal totalDiscount = BigDecimal.ZERO;
 
 }

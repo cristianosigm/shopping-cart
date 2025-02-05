@@ -15,12 +15,10 @@ public class CartItemDTO {
 
     private Long id;
 
-    private String productName;
-
-    private String productDescription;
+    private ProductDTO product;
 
     private Integer quantity;
 
-    private BigDecimal unitPrice;
+    private BigDecimal discount;
 
 }

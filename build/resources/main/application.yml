@@ -7,8 +7,8 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/csdb
-#    driver-class-name: org.h2.Driver
-#    url: jdbc:h2:mem:shopping;INIT=CREATE SCHEMA IF NOT EXISTS shopping;
+    #    driver-class-name: org.h2.Driver
+    #    url: jdbc:h2:mem:shopping;INIT=CREATE SCHEMA IF NOT EXISTS shopping;
     username: shoppingadm
     password: obiwan
   devtools:
@@ -16,9 +16,9 @@ spring:
   jackson:
     default-property-inclusion: non_null
   jpa:
-#    database-platform: org.hibernate.dialect.H2Dialect
+    #    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     open-in-view: false
 
 logging:

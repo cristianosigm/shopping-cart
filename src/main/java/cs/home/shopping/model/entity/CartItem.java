@@ -1,6 +1,7 @@
 package cs.home.shopping.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -20,14 +21,16 @@ public class CartItem {
 
     private Long cartId;
 
-    private Long productId;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "productId", referencedColumnName = "id")
+    private Product product;
 
-    private String productName;
+    @NotNull
+    @Builder.Default
+    private Integer quantity = 0;
 
-    private String productDescription;
-
-    private Integer quantity;
-
-    private BigDecimal unitPrice;
+    @NotNull
+    @Builder.Default
+    private BigDecimal discount = BigDecimal.ZERO;
 
 }

@@ -11,7 +11,7 @@ import lombok.*;
 @Builder
 @Table(name = "customer", schema = "shopping")
 public class Customer {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

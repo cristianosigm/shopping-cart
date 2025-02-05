@@ -11,7 +11,7 @@ import spock.lang.Specification
 class ProductControllerV1Test extends Specification {
 
     @Autowired
-    private MockMvc mvc;
+    private MockMvc mvc
 
     def "should load ProductController successfully"() {
         expect: "Success"

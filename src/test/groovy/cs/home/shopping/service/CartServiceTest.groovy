@@ -9,12 +9,12 @@ class CartServiceTest extends Specification {
             .id(1L)
             .name("Mocked Customer VIP")
             .isVIP(true)
-            .build();
+            .build()
     def customerRegular = Customer.builder()
             .id(2L)
             .name("Mocked Customer Regular")
             .isVIP(false)
-            .build();
+            .build()
 
     def "when adding #qty items of Product #productId then result should be #result "() {
         expect:
@@ -44,7 +44,7 @@ class CartServiceTest extends Specification {
         qty > 0
         !customerRegular.isVIP
         discount < 101
-        
+
         where:
         qty | discount
         1   | 0

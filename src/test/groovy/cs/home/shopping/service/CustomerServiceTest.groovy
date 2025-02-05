@@ -11,7 +11,7 @@ class CustomerServiceTest extends Specification {
 
     def repository = Mock(CustomerRepository)
     def mapper = new CustomerMapper(new ModelMapper())
-    def service = new CustomerService(repository, mapper);
+    def service = new CustomerService(repository, mapper)
 
     def validEntity = Customer.builder()
             .id(1)
@@ -42,7 +42,7 @@ class CustomerServiceTest extends Specification {
         repository.save(_) >> validEntity
 
         when:
-        def response = service.save(validCustomer);
+        def response = service.save(validCustomer)
 
         then:
         response !== null

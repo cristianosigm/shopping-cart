@@ -1,0 +1,21 @@
+meta {
+  name: add promotion
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseURL}}/api/v1/promotions
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Buy 3 for the price of 2",
+    "description": "For each 3 items you buy, you get one for free!! Valid for all items on sale!",
+    "minimumQuantity": 3,
+    "requiresVIP": false,
+    "discountPercent": 33.33
+  }
+}

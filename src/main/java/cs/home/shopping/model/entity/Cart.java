@@ -1,8 +1,10 @@
 package cs.home.shopping.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,8 +24,13 @@ public class Cart {
 
     private Long customerId;
 
+    @NotNull
+    @Builder.Default
+    private Boolean customerIsVIP = Boolean.FALSE;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "cartId")
-    private List<CartItem> items;
+    @Builder.Default
+    private List<CartItem> items = new ArrayList<>();
 
 }
