@@ -1,6 +1,7 @@
 package cs.home.shopping.service;
 
 import cs.home.shopping.dto.CustomerDTO;
+import cs.home.shopping.exception.ItemNotFoundException;
 import cs.home.shopping.model.entity.Customer;
 import cs.home.shopping.model.repository.CustomerRepository;
 import org.modelmapper.ModelMapper;
@@ -23,16 +24,16 @@ public class CustomerService {
     }
 
     public CustomerDTO save(CustomerDTO item) {
-        return this.mapper.map(this.customerRepository.save(this.mapper.map(item, Customer.class)), CustomerDTO.class);
+        return mapper.map(customerRepository.save(mapper.map(item, Customer.class)), CustomerDTO.class);
     }
 
     public List<CustomerDTO> findAll() {
-        return this.mapper.map(this.customerRepository.findAll(), new TypeToken<List<CustomerDTO>>() {
+        return mapper.map(customerRepository.findAll(), new TypeToken<List<CustomerDTO>>() {
         }.getType());
     }
 
     public CustomerDTO profile(Long customerId) {
-        return this.mapper.map(this.customerRepository.findById(customerId)
-            .orElseThrow(() -> new RuntimeException("Profile not found.")), CustomerDTO.class);
+        return mapper.map(customerRepository.findById(customerId)
+            .orElseThrow(() -> new ItemNotFoundException("Profile not found.")), CustomerDTO.class);
     }
 }

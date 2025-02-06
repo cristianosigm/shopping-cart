@@ -1,6 +1,7 @@
 package cs.home.shopping.service;
 
 import cs.home.shopping.dto.ProductDTO;
+import cs.home.shopping.exception.ItemNotFoundException;
 import cs.home.shopping.model.entity.Product;
 import cs.home.shopping.model.repository.ProductRepository;
 import org.modelmapper.ModelMapper;
@@ -22,16 +23,16 @@ public class ProductService {
     }
 
     public List<ProductDTO> findAll() {
-        return mapToDTO(this.productRepository.findAll());
+        return mapToDTO(productRepository.findAll());
     }
 
     public List<ProductDTO> addAll(List<ProductDTO> items) {
-        return mapToDTO(this.productRepository.saveAll(mapToEntity(items)));
+        return mapToDTO(productRepository.saveAll(mapToEntity(items)));
     }
 
     public ProductDTO findById(Long id) {
         return mapper.map(productRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Product not " + "found")), ProductDTO.class);
+            .orElseThrow(ItemNotFoundException::new), ProductDTO.class);
     }
 
     private List<ProductDTO> mapToDTO(List<Product> items) {

@@ -1,6 +1,8 @@
 package cs.home.shopping.service;
 
 import cs.home.shopping.dto.CartDTO;
+import cs.home.shopping.exception.InvalidOperationException;
+import cs.home.shopping.exception.ItemNotFoundException;
 import cs.home.shopping.model.entity.*;
 import cs.home.shopping.model.repository.CartItemRepository;
 import cs.home.shopping.model.repository.CartRepository;
@@ -13,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -40,15 +42,16 @@ public class CartService {
     }
 
     public CartDTO addProduct(Long customerId, Long productId, Integer quantity) {
-        log.info("Adding productId {} (quantity: {}) on cart with customerId {}", productId, quantity, customerId);
-        final Cart cart = this.cartRepository.findByCustomerId(customerId)
+        log.info("Adding productId {} (quantity: {}) on current cart", productId, quantity);
+        final Cart cart = cartRepository.findByCustomerId(customerId)
             .orElse(null);
 
         if (cart != null) {
             final CartItem item = cart.getItems()
                 .stream()
                 .filter(cartItem -> cartItem.getProduct()
-                    .getId() == productId)
+                    .getId()
+                    .equals(productId))
                 .findFirst()
                 .orElse(null);
             if (item != null) {
@@ -56,8 +59,8 @@ public class CartService {
                 item.setQuantity(item.getQuantity() + quantity);
             } else {
                 log.info("Item not found, adding it");
-                final Product product = this.productRepository.findById(productId)
-                    .orElseThrow(() -> new RuntimeException("Item not found."));
+                final Product product = productRepository.findById(productId)
+                    .orElseThrow(ItemNotFoundException::new);
                 cart.getItems()
                     .add(CartItem.builder()
                         .product(product)
@@ -66,11 +69,11 @@ public class CartService {
             }
             return mapper.map(cartRepository.save(cart), CartDTO.class);
         } else {
-            final Product product = this.productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Item not found."));
-            return mapper.map(this.cartRepository.save(Cart.builder()
+            final Product product = productRepository.findById(productId)
+                .orElseThrow(ItemNotFoundException::new);
+            return mapper.map(cartRepository.save(Cart.builder()
                 .customerId(customerId)
-                .items(Arrays.asList(CartItem.builder()
+                .items(Collections.singletonList(CartItem.builder()
                     .product(product)
                     .quantity(quantity)
                     .build()))
@@ -78,34 +81,26 @@ public class CartService {
         }
     }
 
+    @Transactional
     public void removeProduct(Long customerId, Long productId) {
-        final Cart cart = this.cartRepository.findByCustomerId(customerId)
-            .orElseThrow(() -> new RuntimeException("Customer has no cart"));
+        final Cart cart = cartRepository.findByCustomerId(customerId)
+            .orElseThrow(() -> new ItemNotFoundException("Customer has no cart"));
         cart.getItems()
             .removeIf(it -> it.getProduct()
-                .getId() == productId);
-        this.cartRepository.save(cart);
+                .getId()
+                .equals(productId));
+        cartRepository.saveAndFlush(cart);
     }
 
     @Transactional
     public void clearCart(Long customerId) {
-        log.warn("Removing all items and values from customer's cart {}", customerId);
-        final Cart cart = this.cartRepository.findByCustomerId(customerId)
-            .orElseThrow(() -> new RuntimeException("Customer has no cart."));
-
-        log.warn(" >>> items to delete: {}", cart.getItems()
-            .size());
-
-        cartItemRepository.deleteAll(cart.getItems());
-
-        final int curItems = cartItemRepository.findAll()
-            .size();
-
-        log.warn("Remaining items: {}", curItems);
+        log.warn("Removing all items and values from current cart, if exists.");
+        cartRepository.findByCustomerId(customerId)
+            .ifPresent(cart -> cartItemRepository.deleteAll(cart.getItems()));
     }
 
     public CartDTO loadCart(Long customerId) {
-        final Cart cart = this.cartRepository.findByCustomerId(customerId)
+        final Cart cart = cartRepository.findByCustomerId(customerId)
             .orElse(Cart.builder()
                 .customerId(customerId)
                 .build());
@@ -113,7 +108,7 @@ public class CartService {
         if (!cart.getItems()
             .isEmpty()) {
             // Loading applicable promotions
-            final List<Promotion> applicablePromotions = this.promotionService.findAllActiveForVipStatus(
+            final List<Promotion> applicablePromotions = promotionService.findAllActiveForVipStatus(
                 cart.getCustomerIsVIP());
 
             // Calculating the total price
@@ -160,7 +155,7 @@ public class CartService {
                     .toList())
                 .build());
         } else {
-            throw new RuntimeException("Cannot checkout an empty cart!");
+            throw new InvalidOperationException("Cannot checkout an empty cart.");
         }
     }
 }

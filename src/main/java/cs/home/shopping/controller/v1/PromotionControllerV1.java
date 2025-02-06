@@ -21,11 +21,11 @@ public class PromotionControllerV1 implements PromotionResourceV1 {
 
     @Override
     public ResponseEntity<List<PromotionDTO>> findAll() {
-        return ResponseEntity.ok(this.promotionService.findAll());
+        return ResponseEntity.ok(promotionService.findAll());
     }
 
     @Override
     public ResponseEntity<PromotionDTO> save(PromotionDTO promotion) {
-        return ResponseEntity.ok(this.promotionService.save(promotion));
+        return ResponseEntity.ok(promotionService.save(promotion));
     }
 }

@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "cart", schema = "shopping")
+@Table(name = "cart")
 public class Cart {
 
     @Id
@@ -28,8 +28,8 @@ public class Cart {
     @Builder.Default
     private Boolean customerIsVIP = Boolean.FALSE;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "cartId")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @JoinColumn(name = "cart_id", referencedColumnName = "id")
     @Builder.Default
     private List<CartItem> items = new ArrayList<>();
 }

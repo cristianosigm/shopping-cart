@@ -21,11 +21,11 @@ public class OrderControllerV1 implements OrderResourceV1 {
 
     @Override
     public ResponseEntity<List<OrderDTO>> findByCustomerId(Long customerId) {
-        return ResponseEntity.ok(this.orderService.findByCustomerId(customerId));
+        return ResponseEntity.ok(orderService.findByCustomerId(customerId));
     }
 
     @Override
     public ResponseEntity<?> findAll() {
-        return ResponseEntity.ok(this.orderService.findAll());
+        return ResponseEntity.ok(orderService.findAll());
     }
 }

@@ -23,7 +23,7 @@ public class ProductControllerV1 implements ProductResourceV1 {
 
     @Override
     public ResponseEntity<List<ProductDTO>> findAll() {
-        return ResponseEntity.ok(this.productService.findAll());
+        return ResponseEntity.ok(productService.findAll());
     }
 
     @Override
@@ -33,6 +33,6 @@ public class ProductControllerV1 implements ProductResourceV1 {
 
     @Override
     public ResponseEntity<List<ProductDTO>> addAll(@RequestBody @Valid List<ProductDTO> items) {
-        return ResponseEntity.ok(this.productService.addAll(items));
+        return ResponseEntity.ok(productService.addAll(items));
     }
 }

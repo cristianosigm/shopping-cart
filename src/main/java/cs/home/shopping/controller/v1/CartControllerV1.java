@@ -22,7 +22,7 @@ public class CartControllerV1 implements CartResourceV1 {
 
     @Override
     public ResponseEntity<SuccessResponseDTO> addProduct(Long customerId, Long productId, Integer quantity) {
-        this.cartService.addProduct(customerId, productId, quantity);
+        cartService.addProduct(customerId, productId, quantity);
         return ResponseEntity.ok(SuccessResponseDTO.builder()
             .message("Product added.")
             .build());
@@ -30,7 +30,7 @@ public class CartControllerV1 implements CartResourceV1 {
 
     @Override
     public ResponseEntity<SuccessResponseDTO> removeProduct(Long customerId, Long productId) {
-        this.cartService.removeProduct(customerId, productId);
+        cartService.removeProduct(customerId, productId);
         return ResponseEntity.ok(SuccessResponseDTO.builder()
             .message("Product removed.")
             .build());
@@ -38,7 +38,7 @@ public class CartControllerV1 implements CartResourceV1 {
 
     @Override
     public ResponseEntity<SuccessResponseDTO> clearCart(Long customerId) {
-        this.cartService.clearCart(customerId);
+        cartService.clearCart(customerId);
         return ResponseEntity.ok(SuccessResponseDTO.builder()
             .message("Cart successfully cleared.")
             .build());
@@ -46,8 +46,7 @@ public class CartControllerV1 implements CartResourceV1 {
 
     @Override
     public ResponseEntity<CartDTO> loadCart(Long customerId) {
-        log.info("CustomerId: {}", customerId);
-        return ResponseEntity.ok(this.cartService.loadCart(customerId));
+        return ResponseEntity.ok(cartService.loadCart(customerId));
     }
 
     @Override

@@ -2,7 +2,6 @@ package cs.home.shopping.service
 
 import cs.home.shopping.dto.CustomerDTO
 import cs.home.shopping.model.entity.Customer
-import cs.home.shopping.model.mapper.CustomerMapper
 import cs.home.shopping.model.repository.CustomerRepository
 import org.modelmapper.ModelMapper
 import spock.lang.Specification
@@ -10,7 +9,7 @@ import spock.lang.Specification
 class CustomerServiceTest extends Specification {
 
     def repository = Mock(CustomerRepository)
-    def mapper = new CustomerMapper(new ModelMapper())
+    def mapper = new ModelMapper()
     def service = new CustomerService(repository, mapper)
 
     def validEntity = Customer.builder()

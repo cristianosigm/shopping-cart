@@ -29,7 +29,7 @@
 </td>
 <td>
 <div class="infoBox" id="failures">
-<div class="counter">0</div>
+<div class="counter">5</div>
 <p>failures</p>
 </div>
 </td>
@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.170s</div>
+<div class="counter">0.125s</div>
 <p>duration</p>
 </div>
 </td>
@@ -50,8 +50,8 @@
 </div>
 </td>
 <td>
-<div class="infoBox success" id="successRate">
-<div class="percent">100%</div>
+<div class="infoBox failures" id="successRate">
+<div class="percent">28%</div>
 <p>successful</p>
 </div>
 </td>
@@ -61,13 +61,74 @@
 <div id="tabs">
 <ul class="tabLinks">
 <li>
-<a href="#tab0">Tests</a>
+<a href="#tab0">Failed tests</a>
 </li>
 <li>
-<a href="#tab1">Standard output</a>
+<a href="#tab1">Tests</a>
+</li>
+<li>
+<a href="#tab2">Standard output</a>
 </li>
 </ul>
 <div id="tab0" class="tab">
+<h2>Failed tests</h2>
+<div class="test">
+<a name="when a VIP Customer adds 2 jeans and 2 dresses to cart then total should be 227.00"></a>
+<h3 class="failures">when a VIP Customer adds 2 jeans and 2 dresses to cart then total should be 227.00</h3>
+<span class="code">
+<pre>groovy.lang.MissingMethodException: No signature of method: cs.home.shopping.model.entity.CartItem$CartItemBuilder.cartId() is applicable for argument types: (Integer) values: [1]
+Possible solutions: wait(), wait(long), wait(long, int)
+	at app//cs.home.shopping.shared.BaseTest.generateItems(BaseTest.groovy:41)
+	at cs.home.shopping.service.CartServiceTest.when a #customerType Customer adds #items to cart then total should be #expected(CartServiceTest.groovy:32)
+</pre>
+</span>
+</div>
+<div class="test">
+<a name="when a VIP Customer adds 3 dresses to cart then total should be 161.50"></a>
+<h3 class="failures">when a VIP Customer adds 3 dresses to cart then total should be 161.50</h3>
+<span class="code">
+<pre>groovy.lang.MissingMethodException: No signature of method: cs.home.shopping.model.entity.CartItem$CartItemBuilder.cartId() is applicable for argument types: (Integer) values: [1]
+Possible solutions: wait(), wait(long), wait(long, int)
+	at app//cs.home.shopping.shared.BaseTest.generateItems(BaseTest.groovy:41)
+	at cs.home.shopping.service.CartServiceTest.when a #customerType Customer adds #items to cart then total should be #expected(CartServiceTest.groovy:32)
+</pre>
+</span>
+</div>
+<div class="test">
+<a name="when a VIP Customer adds 4 shirts and 1 jeans to cart then total should be 173.47"></a>
+<h3 class="failures">when a VIP Customer adds 4 shirts and 1 jeans to cart then total should be 173.47</h3>
+<span class="code">
+<pre>groovy.lang.MissingMethodException: No signature of method: cs.home.shopping.model.entity.CartItem$CartItemBuilder.cartId() is applicable for argument types: (Integer) values: [1]
+Possible solutions: wait(), wait(long), wait(long, int)
+	at app//cs.home.shopping.shared.BaseTest.generateItems(BaseTest.groovy:49)
+	at cs.home.shopping.service.CartServiceTest.when a #customerType Customer adds #items to cart then total should be #expected(CartServiceTest.groovy:32)
+</pre>
+</span>
+</div>
+<div class="test">
+<a name="when a regular Customer adds 2 shirts and 2 jeans to cart then total should be 166.99"></a>
+<h3 class="failures">when a regular Customer adds 2 shirts and 2 jeans to cart then total should be 166.99</h3>
+<span class="code">
+<pre>groovy.lang.MissingMethodException: No signature of method: cs.home.shopping.model.entity.CartItem$CartItemBuilder.cartId() is applicable for argument types: (Integer) values: [1]
+Possible solutions: wait(), wait(long), wait(long, int)
+	at app//cs.home.shopping.shared.BaseTest.generateItems(BaseTest.groovy:49)
+	at cs.home.shopping.service.CartServiceTest.when a #customerType Customer adds #items to cart then total should be #expected(CartServiceTest.groovy:32)
+</pre>
+</span>
+</div>
+<div class="test">
+<a name="when a regular Customer adds 3 shirts to cart then total should be 71.98"></a>
+<h3 class="failures">when a regular Customer adds 3 shirts to cart then total should be 71.98</h3>
+<span class="code">
+<pre>groovy.lang.MissingMethodException: No signature of method: cs.home.shopping.model.entity.CartItem$CartItemBuilder.cartId() is applicable for argument types: (Integer) values: [1]
+Possible solutions: wait(), wait(long), wait(long, int)
+	at app//cs.home.shopping.shared.BaseTest.generateItems(BaseTest.groovy:57)
+	at cs.home.shopping.service.CartServiceTest.when a #customerType Customer adds #items to cart then total should be #expected(CartServiceTest.groovy:32)
+</pre>
+</span>
+</div>
+</div>
+<div id="tab1" class="tab">
 <h2>Tests</h2>
 <table>
 <thead>
@@ -78,49 +139,49 @@
 </tr>
 </thead>
 <tr>
-<td class="success">when a VIP Customer adds 2 jeans and 2 dresses to cart then total should be 227.00</td>
-<td class="success">0.005s</td>
-<td class="success">passed</td>
+<td class="failures">when a VIP Customer adds 2 jeans and 2 dresses to cart then total should be 227.00</td>
+<td class="failures">0.003s</td>
+<td class="failures">failed</td>
 </tr>
 <tr>
-<td class="success">when a VIP Customer adds 3 dresses to cart then total should be 161.50</td>
-<td class="success">0.007s</td>
-<td class="success">passed</td>
+<td class="failures">when a VIP Customer adds 3 dresses to cart then total should be 161.50</td>
+<td class="failures">0.005s</td>
+<td class="failures">failed</td>
 </tr>
 <tr>
-<td class="success">when a VIP Customer adds 4 shirts and 1 jeans to cart then total should be 173.47</td>
-<td class="success">0.004s</td>
-<td class="success">passed</td>
+<td class="failures">when a VIP Customer adds 4 shirts and 1 jeans to cart then total should be 173.47</td>
+<td class="failures">0.002s</td>
+<td class="failures">failed</td>
 </tr>
 <tr>
-<td class="success">when a regular Customer adds 2 shirts and 2 jeans to cart then total should be 166.99</td>
-<td class="success">0.008s</td>
-<td class="success">passed</td>
+<td class="failures">when a regular Customer adds 2 shirts and 2 jeans to cart then total should be 166.99</td>
+<td class="failures">0.004s</td>
+<td class="failures">failed</td>
 </tr>
 <tr>
-<td class="success">when a regular Customer adds 3 shirts to cart then total should be 71.98</td>
-<td class="success">0.083s</td>
-<td class="success">passed</td>
+<td class="failures">when a regular Customer adds 3 shirts to cart then total should be 71.98</td>
+<td class="failures">0.019s</td>
+<td class="failures">failed</td>
 </tr>
 <tr>
 <td class="success">when adding existing products then should add to existing</td>
-<td class="success">0.005s</td>
+<td class="success">0.006s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">when adding new products then should create an item</td>
-<td class="success">0.058s</td>
+<td class="success">0.086s</td>
 <td class="success">passed</td>
 </tr>
 </table>
 </div>
-<div id="tab1" class="tab">
+<div id="tab2" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>23:50:12.253 [Test worker] INFO cs.home.shopping.service.CartService -- Adding productId 2 (quantity: 1) on cart with customerId 1
-23:50:12.259 [Test worker] INFO cs.home.shopping.service.CartService -- Item not found, adding it
-23:50:12.282 [Test worker] INFO cs.home.shopping.service.CartService -- Adding productId 1 (quantity: 1) on cart with customerId 1
-23:50:12.282 [Test worker] INFO cs.home.shopping.service.CartService -- Item found, increasing quantity
+<pre>08:58:07.475 [Test worker] INFO cs.home.shopping.service.CartService -- Adding productId 2 (quantity: 1) on current cart
+08:58:07.483 [Test worker] INFO cs.home.shopping.service.CartService -- Item not found, adding it
+08:58:07.528 [Test worker] INFO cs.home.shopping.service.CartService -- Adding productId 1 (quantity: 1) on current cart
+08:58:07.529 [Test worker] INFO cs.home.shopping.service.CartService -- Item found, increasing quantity
 </pre>
 </span>
 </div>
@@ -132,7 +193,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 8.12.1</a> at Feb 5, 2025, 11:50:12 PM</p>
+<a href="http://www.gradle.org">Gradle 8.12.1</a> at Feb 6, 2025, 8:58:07 AM</p>
 </div>
 </div>
 </body>

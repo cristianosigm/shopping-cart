@@ -20,13 +20,13 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">7</div>
+<div class="counter">30</div>
 <p>tests</p>
 </div>
 </td>
 <td>
 <div class="infoBox" id="failures">
-<div class="counter">0</div>
+<div class="counter">22</div>
 <p>failures</p>
 </div>
 </td>
@@ -38,7 +38,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.170s</div>
+<div class="counter">0.567s</div>
 <p>duration</p>
 </div>
 </td>
@@ -47,8 +47,8 @@
 </div>
 </td>
 <td>
-<div class="infoBox success" id="successRate">
-<div class="percent">100%</div>
+<div class="infoBox failures" id="successRate">
+<div class="percent">26%</div>
 <p>successful</p>
 </div>
 </td>
@@ -58,13 +58,109 @@
 <div id="tabs">
 <ul class="tabLinks">
 <li>
-<a href="#tab0">Packages</a>
+<a href="#tab0">Failed tests</a>
 </li>
 <li>
-<a href="#tab1">Classes</a>
+<a href="#tab1">Packages</a>
+</li>
+<li>
+<a href="#tab2">Classes</a>
 </li>
 </ul>
 <div id="tab0" class="tab">
+<h2>Failed tests</h2>
+<ul class="linkList">
+<li>
+<a href="classes/CartControllerV1Test.html">CartControllerV1Test</a>.
+<a href="classes/CartControllerV1Test.html#test addProduct">test addProduct</a>
+</li>
+<li>
+<a href="classes/CartControllerV1Test.html">CartControllerV1Test</a>.
+<a href="classes/CartControllerV1Test.html#test checkout">test checkout</a>
+</li>
+<li>
+<a href="classes/CartControllerV1Test.html">CartControllerV1Test</a>.
+<a href="classes/CartControllerV1Test.html#test clearCart">test clearCart</a>
+</li>
+<li>
+<a href="classes/CartControllerV1Test.html">CartControllerV1Test</a>.
+<a href="classes/CartControllerV1Test.html#test loadCart">test loadCart</a>
+</li>
+<li>
+<a href="classes/CartControllerV1Test.html">CartControllerV1Test</a>.
+<a href="classes/CartControllerV1Test.html#test removeProduct">test removeProduct</a>
+</li>
+<li>
+<a href="classes/CustomerControllerV1Test.html">CustomerControllerV1Test</a>.
+<a href="classes/CustomerControllerV1Test.html#test findAll">test findAll</a>
+</li>
+<li>
+<a href="classes/CustomerControllerV1Test.html">CustomerControllerV1Test</a>.
+<a href="classes/CustomerControllerV1Test.html#test profile">test profile</a>
+</li>
+<li>
+<a href="classes/CustomerControllerV1Test.html">CustomerControllerV1Test</a>.
+<a href="classes/CustomerControllerV1Test.html#test save">test save</a>
+</li>
+<li>
+<a href="classes/OrderServiceTest.html">OrderServiceTest</a>.
+<a href="classes/OrderServiceTest.html#test findAll">test findAll</a>
+</li>
+<li>
+<a href="classes/OrderServiceTest.html">OrderServiceTest</a>.
+<a href="classes/OrderServiceTest.html#test findByCustomerId">test findByCustomerId</a>
+</li>
+<li>
+<a href="classes/ProductServiceTest.html">ProductServiceTest</a>.
+<a href="classes/ProductServiceTest.html#test addAll">test addAll</a>
+</li>
+<li>
+<a href="classes/ProductServiceTest.html">ProductServiceTest</a>.
+<a href="classes/ProductServiceTest.html#test findAll">test findAll</a>
+</li>
+<li>
+<a href="classes/ProductServiceTest.html">ProductServiceTest</a>.
+<a href="classes/ProductServiceTest.html#test findById">test findById</a>
+</li>
+<li>
+<a href="classes/ProductServiceTest.html">ProductServiceTest</a>.
+<a href="classes/ProductServiceTest.html#test findById throws ItemNotFoundException">test findById throws ItemNotFoundException</a>
+</li>
+<li>
+<a href="classes/PromotionServiceTest.html">PromotionServiceTest</a>.
+<a href="classes/PromotionServiceTest.html#test findAll">test findAll</a>
+</li>
+<li>
+<a href="classes/PromotionServiceTest.html">PromotionServiceTest</a>.
+<a href="classes/PromotionServiceTest.html#test findAllActiveForVipStatus">test findAllActiveForVipStatus</a>
+</li>
+<li>
+<a href="classes/PromotionServiceTest.html">PromotionServiceTest</a>.
+<a href="classes/PromotionServiceTest.html#test save">test save</a>
+</li>
+<li>
+<a href="classes/cs.home.shopping.service.CartServiceTest.html">CartServiceTest</a>.
+<a href="classes/cs.home.shopping.service.CartServiceTest.html#when a VIP Customer adds 2 jeans and 2 dresses to cart then total should be 227.00">when a VIP Customer adds 2 jeans and 2 dresses to cart then total should be 227.00</a>
+</li>
+<li>
+<a href="classes/cs.home.shopping.service.CartServiceTest.html">CartServiceTest</a>.
+<a href="classes/cs.home.shopping.service.CartServiceTest.html#when a VIP Customer adds 3 dresses to cart then total should be 161.50">when a VIP Customer adds 3 dresses to cart then total should be 161.50</a>
+</li>
+<li>
+<a href="classes/cs.home.shopping.service.CartServiceTest.html">CartServiceTest</a>.
+<a href="classes/cs.home.shopping.service.CartServiceTest.html#when a VIP Customer adds 4 shirts and 1 jeans to cart then total should be 173.47">when a VIP Customer adds 4 shirts and 1 jeans to cart then total should be 173.47</a>
+</li>
+<li>
+<a href="classes/cs.home.shopping.service.CartServiceTest.html">CartServiceTest</a>.
+<a href="classes/cs.home.shopping.service.CartServiceTest.html#when a regular Customer adds 2 shirts and 2 jeans to cart then total should be 166.99">when a regular Customer adds 2 shirts and 2 jeans to cart then total should be 166.99</a>
+</li>
+<li>
+<a href="classes/cs.home.shopping.service.CartServiceTest.html">CartServiceTest</a>.
+<a href="classes/cs.home.shopping.service.CartServiceTest.html#when a regular Customer adds 3 shirts to cart then total should be 71.98">when a regular Customer adds 3 shirts to cart then total should be 71.98</a>
+</li>
+</ul>
+</div>
+<div id="tab1" class="tab">
 <h2>Packages</h2>
 <table>
 <thead>
@@ -79,19 +175,29 @@
 </thead>
 <tbody>
 <tr>
-<td class="success">
+<td class="failures">
+<a href="packages/default-package.html">default-package</a>
+</td>
+<td>21</td>
+<td>17</td>
+<td>0</td>
+<td>0.421s</td>
+<td class="failures">19%</td>
+</tr>
+<tr>
+<td class="failures">
 <a href="packages/cs.home.shopping.service.html">cs.home.shopping.service</a>
 </td>
-<td>7</td>
+<td>9</td>
+<td>5</td>
 <td>0</td>
-<td>0</td>
-<td>0.170s</td>
-<td class="success">100%</td>
+<td>0.146s</td>
+<td class="failures">44%</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div id="tab1" class="tab">
+<div id="tab2" class="tab">
 <h2>Classes</h2>
 <table>
 <thead>
@@ -106,13 +212,83 @@
 </thead>
 <tbody>
 <tr>
+<td class="failures">
+<a href="classes/CartControllerV1Test.html">CartControllerV1Test</a>
+</td>
+<td>5</td>
+<td>5</td>
+<td>0</td>
+<td>0.164s</td>
+<td class="failures">0%</td>
+</tr>
+<tr>
+<td class="failures">
+<a href="classes/CustomerControllerV1Test.html">CustomerControllerV1Test</a>
+</td>
+<td>3</td>
+<td>3</td>
+<td>0</td>
+<td>0.028s</td>
+<td class="failures">0%</td>
+</tr>
+<tr>
+<td class="failures">
+<a href="classes/OrderServiceTest.html">OrderServiceTest</a>
+</td>
+<td>2</td>
+<td>2</td>
+<td>0</td>
+<td>0.027s</td>
+<td class="failures">0%</td>
+</tr>
+<tr>
+<td class="failures">
+<a href="classes/ProductServiceTest.html">ProductServiceTest</a>
+</td>
+<td>4</td>
+<td>4</td>
+<td>0</td>
+<td>0.045s</td>
+<td class="failures">0%</td>
+</tr>
+<tr>
+<td class="failures">
+<a href="classes/PromotionServiceTest.html">PromotionServiceTest</a>
+</td>
+<td>6</td>
+<td>3</td>
+<td>0</td>
+<td>0.142s</td>
+<td class="failures">50%</td>
+</tr>
+<tr>
 <td class="success">
+<a href="classes/SampleGroovyTest.html">SampleGroovyTest</a>
+</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0.015s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="failures">
 <a href="classes/cs.home.shopping.service.CartServiceTest.html">cs.home.shopping.service.CartServiceTest</a>
 </td>
 <td>7</td>
+<td>5</td>
+<td>0</td>
+<td>0.125s</td>
+<td class="failures">28%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/cs.home.shopping.service.CustomerServiceTest.html">cs.home.shopping.service.CustomerServiceTest</a>
+</td>
+<td>2</td>
 <td>0</td>
 <td>0</td>
-<td>0.170s</td>
+<td>0.021s</td>
 <td class="success">100%</td>
 </tr>
 </tbody>
@@ -126,7 +302,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 8.12.1</a> at Feb 5, 2025, 11:50:12 PM</p>
+<a href="http://www.gradle.org">Gradle 8.12.1</a> at Feb 6, 2025, 8:58:07 AM</p>
 </div>
 </div>
 </body>
