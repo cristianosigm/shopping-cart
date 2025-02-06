@@ -1,11 +1,11 @@
 meta {
-  name: add product
+  name: orders by customer
   type: http
   seq: 2
 }
 
-put {
-  url: {{baseURL}}/api/v1/cart/product/2/quantity/4
+get {
+  url: {{baseURL}}/api/v1/orders
   body: none
   auth: none
 }

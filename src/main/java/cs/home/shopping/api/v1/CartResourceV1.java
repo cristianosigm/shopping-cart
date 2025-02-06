@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/cart")
 public interface CartResourceV1 {
 
-    @PostMapping("/product/{productId}/quantity/{quantity}")
+    @PutMapping("/product/{productId}/quantity/{quantity}")
     ResponseEntity<SuccessResponseDTO> addProduct(@RequestHeader("customerId") Long customerId,
                                                   @PathVariable("productId") Long productId,
                                                   @PathVariable("quantity") Integer quantity);

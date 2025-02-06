@@ -22,18 +22,13 @@ public class ProductControllerV1 implements ProductResourceV1 {
     }
 
     @Override
-    public ResponseEntity<String> deleteById(Integer id) {
-        return ResponseEntity.ok("deleted");
-    }
-
-    @Override
     public ResponseEntity<List<ProductDTO>> findAll() {
         return ResponseEntity.ok(this.productService.findAll());
     }
 
     @Override
-    public ResponseEntity<String> findById(Integer id) {
-        return ResponseEntity.ok("product by id: " + id);
+    public ResponseEntity<ProductDTO> findById(Long id) {
+        return ResponseEntity.ok(productService.findById(id));
     }
 
     @Override

@@ -27,8 +27,8 @@ public class CustomerControllerV1 implements CustomerResourceV1 {
     }
 
     @Override
-    public ResponseEntity<String> findById(Integer id) {
-        return ResponseEntity.ok("product by id: " + id);
+    public ResponseEntity<CustomerDTO> profile(Long customerId) {
+        return ResponseEntity.ok(customerService.profile(customerId));
     }
 
     @Override

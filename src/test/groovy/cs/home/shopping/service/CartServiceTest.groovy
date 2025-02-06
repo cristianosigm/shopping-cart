@@ -2,38 +2,37 @@ package cs.home.shopping.service
 
 import cs.home.shopping.dto.CartDTO
 import cs.home.shopping.model.entity.Cart
-import cs.home.shopping.model.mapper.PromotionMapper
-import cs.home.shopping.model.repository.CartRepository
-import cs.home.shopping.model.repository.ProductRepository
-import cs.home.shopping.model.repository.PromotionRepository
+import cs.home.shopping.model.entity.CartItem
+import cs.home.shopping.model.repository.*
 import cs.home.shopping.shared.BaseTest
 import org.modelmapper.ModelMapper
 
 class CartServiceTest extends BaseTest {
 
-//    def cartMapper = new CartMapper(new ModelMapper())
-    def promotionMapper = new PromotionMapper(new ModelMapper())
-
+    def mapper = new ModelMapper()
     def cartRepository = Mock(CartRepository)
+    def cartItemRepository = Mock(CartItemRepository)
     def promotionRepository = Mock(PromotionRepository)
     def productRepository = Mock(ProductRepository)
+    def orderRepository = Mock(OrderRepository)
 
-    def promotionService = new PromotionService(promotionRepository, promotionMapper)
-    def cartService = new CartService(cartRepository, promotionService, promotionRepository, productRepository)
+    def promotionService = new PromotionService(promotionRepository, mapper)
+    def cartService = new CartService(cartRepository, cartItemRepository, promotionService, productRepository,
+            orderRepository, mapper)
 
     def promotions = generatePromotions()
 
     // Challenge tests
-    def "(ALL) when a #customerType Customer adds #items to cart then total should be #expected"() {
+    def "when a #customerType Customer adds #items to cart then total should be #expected"() {
         given:
-        cartRepository.findByCustomerId(_) >> Optional.of(Cart.builder()
+        cartRepository.findByCustomerId(_ as Long) >> Optional.of(Cart.builder()
                 .id(1)
                 .customerId(1)
                 .customerIsVIP(isVIP)
                 .items(generateItems(nrOfDresses, nrOfJeans, nrOfShirts))
                 .build())
 
-        promotionRepository.findAllByActiveTrueAndRequiresVIP(_) >> promotions
+        promotionRepository.findAllByActiveTrueAndRequiresVIP(_ as Boolean) >> promotions
 
         when:
         CartDTO response = cartService.loadCart(1)
@@ -51,36 +50,38 @@ class CartServiceTest extends BaseTest {
     }
 
     // Additional tests
-    def "when adding  "() {
+    def "when adding #details products then should #expected"() {
         given:
-        // declare the amount of products here
+        def items = new ArrayList<CartItem>()
+        items.add(CartItem.builder()
+                .id(1)
+                .product(shirt)
+                .quantity(1)
+                .build())
 
-        expect:
-        1 == 1
+        cartRepository.findByCustomerId(_ as Long) >> Optional.of(Cart.builder()
+                .id(1)
+                .customerId(1)
+                .items(items)
+                .build())
+
+        productRepository.findById(1) >> Optional.of(shirt)
+        productRepository.findById(2) >> Optional.of(jeans)
+
+        Cart captured
+        cartRepository.save(_ as Cart) >> { arguments -> captured = arguments[0] }
+
+        when:
+        cartService.addProduct(1, productId, quantity)
+
+        then:
+        captured.items.size() == expectSize
+        captured.items.get(0).getQuantity() == qtyShirts
 
         where:
-        productId | qty | result
-        1         | 1   | true
-        2         | 3   | true
+        details    | expected          | productId | quantity | expectSize | qtyShirts
+        "new"      | "create an item"  | 2         | 1        | 2          | 1
+        "existing" | "add to existing" | 1         | 1        | 1          | 2
     }
-
-    def "when Products has #qty items and Customer is not VIP then Discount should be #discount"() {
-        expect:
-        qty > 0
-        !customerRegular.isVIP
-        discount < 101
-
-        where:
-        qty | discount
-        1   | 0
-        2   | 0
-        3   | 100
-    }
-
-    def "when adding a product that was already added then increase quantity"() {
-        expect:
-        1 == 1
-    }
-
 
 }

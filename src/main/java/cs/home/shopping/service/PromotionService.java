@@ -3,8 +3,8 @@ package cs.home.shopping.service;
 import cs.home.shopping.dto.PromotionDTO;
 import cs.home.shopping.model.entity.CartItem;
 import cs.home.shopping.model.entity.Promotion;
-import cs.home.shopping.model.mapper.PromotionMapper;
 import cs.home.shopping.model.repository.PromotionRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,20 +15,24 @@ import java.util.List;
 public class PromotionService {
 
     private final PromotionRepository promotionRepository;
-    private final PromotionMapper promotionMapper;
+    private final ModelMapper mapper;
 
     @Autowired
-    public PromotionService(PromotionRepository promotionRepository, PromotionMapper promotionMapper) {
+    public PromotionService(PromotionRepository promotionRepository, ModelMapper mapper) {
         this.promotionRepository = promotionRepository;
-        this.promotionMapper = promotionMapper;
+        this.mapper = mapper;
     }
 
     public PromotionDTO save(PromotionDTO promotionDTO) {
-        return promotionMapper.mapToDTO(promotionRepository.save(promotionMapper.mapToEntity(promotionDTO)));
+        return mapper.map(promotionRepository.save(mapper.map(promotionDTO, Promotion.class)), PromotionDTO.class);
     }
 
     public List<PromotionDTO> findAll() {
-        return promotionMapper.mapToDTO(promotionRepository.findAll());
+        return mapToDTO(promotionRepository.findAll());
+    }
+
+    public List<Promotion> findAllActiveForVipStatus(Boolean customerIsVIP) {
+        return promotionRepository.findAllByActiveTrueAndRequiresVIP(customerIsVIP);
     }
 
     public BigDecimal calculateDiscountBasedOnItems(List<CartItem> cartItems, List<Promotion> applicablePromotions) {
@@ -44,7 +48,7 @@ public class PromotionService {
             .reduce(0, Integer::sum);
 
         // If the number of items reach the minimum required, discount the cheapest item
-        if (totalItems >= itemPromotion.getMinimumQuantity()) {
+        if (itemPromotion != null && totalItems >= itemPromotion.getMinimumQuantity()) {
             // Finding the cheapest product
             return cartItems.stream()
                 .map(item -> item.getProduct()
@@ -75,5 +79,11 @@ public class PromotionService {
         }
         // Customer is not applicable
         return BigDecimal.ZERO;
+    }
+
+    private List<PromotionDTO> mapToDTO(List<Promotion> items) {
+        return items.stream()
+            .map(it -> mapper.map(it, PromotionDTO.class))
+            .toList();
     }
 }

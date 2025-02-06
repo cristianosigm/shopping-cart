@@ -1,0 +1,4 @@
+ƒ23:50:12.253 [Test worker] INFO cs.home.shopping.service.CartService -- Adding productId 2 (quantity: 1) on cart with customerId 1
+b23:50:12.259 [Test worker] INFO cs.home.shopping.service.CartService -- Item not found, adding it
+ƒ23:50:12.282 [Test worker] INFO cs.home.shopping.service.CartService -- Adding productId 1 (quantity: 1) on cart with customerId 1
+h23:50:12.282 [Test worker] INFO cs.home.shopping.service.CartService -- Item found, increasing quantity

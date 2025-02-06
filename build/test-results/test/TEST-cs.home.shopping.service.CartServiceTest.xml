@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="cs.home.shopping.service.CartServiceTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2025-02-05T23:03:01" hostname="CSC-DEV" time="0.197">
+<testsuite name="cs.home.shopping.service.CartServiceTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2025-02-06T02:50:12" hostname="CSC-DEV" time="0.187">
   <properties/>
-  <testcase name="(ALL) when a regular Customer adds 3 shirts to cart then total should be 71.98" classname="cs.home.shopping.service.CartServiceTest" time="0.085"/>
-  <testcase name="(ALL) when a regular Customer adds 2 shirts and 2 jeans to cart then total should be 166.99" classname="cs.home.shopping.service.CartServiceTest" time="0.01"/>
-  <testcase name="(ALL) when a VIP Customer adds 3 dresses to cart then total should be 161.50" classname="cs.home.shopping.service.CartServiceTest" time="0.017"/>
-  <testcase name="(ALL) when a VIP Customer adds 2 jeans and 2 dresses to cart then total should be 227.00" classname="cs.home.shopping.service.CartServiceTest" time="0.007"/>
-  <testcase name="(ALL) when a VIP Customer adds 4 shirts and 1 jeans to cart then total should be 173.47" classname="cs.home.shopping.service.CartServiceTest" time="0.007"/>
-  <testcase name="when adding   [productId: 1, qty: 1, result: true, #0]" classname="cs.home.shopping.service.CartServiceTest" time="0.003"/>
-  <testcase name="when adding   [productId: 2, qty: 3, result: true, #1]" classname="cs.home.shopping.service.CartServiceTest" time="0.001"/>
-  <testcase name="when Products has 1 items and Customer is not VIP then Discount should be 0" classname="cs.home.shopping.service.CartServiceTest" time="0.011"/>
-  <testcase name="when Products has 2 items and Customer is not VIP then Discount should be 0" classname="cs.home.shopping.service.CartServiceTest" time="0.002"/>
-  <testcase name="when Products has 3 items and Customer is not VIP then Discount should be 100" classname="cs.home.shopping.service.CartServiceTest" time="0.002"/>
-  <testcase name="when adding a product that was already added then increase quantity" classname="cs.home.shopping.service.CartServiceTest" time="0.007"/>
-  <system-out><![CDATA[]]></system-out>
+  <testcase name="when a regular Customer adds 3 shirts to cart then total should be 71.98" classname="cs.home.shopping.service.CartServiceTest" time="0.083"/>
+  <testcase name="when a regular Customer adds 2 shirts and 2 jeans to cart then total should be 166.99" classname="cs.home.shopping.service.CartServiceTest" time="0.008"/>
+  <testcase name="when a VIP Customer adds 3 dresses to cart then total should be 161.50" classname="cs.home.shopping.service.CartServiceTest" time="0.007"/>
+  <testcase name="when a VIP Customer adds 2 jeans and 2 dresses to cart then total should be 227.00" classname="cs.home.shopping.service.CartServiceTest" time="0.005"/>
+  <testcase name="when a VIP Customer adds 4 shirts and 1 jeans to cart then total should be 173.47" classname="cs.home.shopping.service.CartServiceTest" time="0.004"/>
+  <testcase name="when adding new products then should create an item" classname="cs.home.shopping.service.CartServiceTest" time="0.058"/>
+  <testcase name="when adding existing products then should add to existing" classname="cs.home.shopping.service.CartServiceTest" time="0.005"/>
+  <system-out><![CDATA[23:50:12.253 [Test worker] INFO cs.home.shopping.service.CartService -- Adding productId 2 (quantity: 1) on cart with customerId 1
+23:50:12.259 [Test worker] INFO cs.home.shopping.service.CartService -- Item not found, adding it
+23:50:12.282 [Test worker] INFO cs.home.shopping.service.CartService -- Adding productId 1 (quantity: 1) on cart with customerId 1
+23:50:12.282 [Test worker] INFO cs.home.shopping.service.CartService -- Item found, increasing quantity
+]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

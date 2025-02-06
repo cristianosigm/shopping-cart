@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -16,7 +17,15 @@ public class OrderDTO {
 
     private Long id;
 
+    private CustomerDTO customer;
+
     private List<OrderItemDTO> items;
+
+    private BigDecimal totalPrice;
+
+    private BigDecimal totalDiscount;
+
+    private BigDecimal finalPrice;
 
     @Builder.Default
     private OrderStatus status = OrderStatus.PENDING_PAYMENT;

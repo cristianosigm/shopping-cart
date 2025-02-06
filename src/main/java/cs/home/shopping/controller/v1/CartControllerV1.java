@@ -52,6 +52,7 @@ public class CartControllerV1 implements CartResourceV1 {
 
     @Override
     public ResponseEntity<SuccessResponseDTO> checkout(Long customerId) {
+        cartService.checkout(customerId);
         return ResponseEntity.ok(SuccessResponseDTO.builder()
             .message("Checkout operation successful.")
             .build());

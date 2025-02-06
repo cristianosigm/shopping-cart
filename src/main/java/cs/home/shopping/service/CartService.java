@@ -2,14 +2,10 @@ package cs.home.shopping.service;
 
 import cs.home.shopping.dto.CartDTO;
 import cs.home.shopping.model.entity.*;
-import cs.home.shopping.model.mapper.CartItemMapper;
-import cs.home.shopping.model.mapper.CartMapper;
-import cs.home.shopping.model.mapper.ProductMapper;
-import cs.home.shopping.model.mapper.PromotionMapper;
 import cs.home.shopping.model.repository.CartItemRepository;
 import cs.home.shopping.model.repository.CartRepository;
+import cs.home.shopping.model.repository.OrderRepository;
 import cs.home.shopping.model.repository.ProductRepository;
-import cs.home.shopping.model.repository.PromotionRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -24,30 +20,23 @@ import java.util.List;
 @Service
 public class CartService {
 
-    private final CartMapper cartMapper = new CartMapper(new ModelMapper());
-    private final CartItemMapper cartItemMapper = new CartItemMapper(new ModelMapper());
-    private final PromotionMapper promotionMapper = new PromotionMapper(new ModelMapper());
-    private final ProductMapper productMapper = new ProductMapper(new ModelMapper());
-
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
     private final PromotionService promotionService;
-    private final PromotionRepository promotionRepository;
     private final ProductRepository productRepository;
+    private final OrderRepository orderRepository;
+    private final ModelMapper mapper;
 
     @Autowired
     public CartService(CartRepository cartRepository, CartItemRepository cartItemRepository,
-                       PromotionService promotionService, PromotionRepository promotionRepository,
-                       ProductRepository productRepository) {
-        //        this.mapper = mapper;
-        //        this.cartMapper = cartMapper;
+                       PromotionService promotionService, ProductRepository productRepository,
+                       OrderRepository orderRepository, ModelMapper mapper) {
+        this.mapper = mapper;
         this.cartRepository = cartRepository;
-        //        this.cartItemMapper = cartItemMapper;
-        //        this.promotionMapper = promotionMapper;
         this.cartItemRepository = cartItemRepository;
         this.promotionService = promotionService;
-        this.promotionRepository = promotionRepository;
         this.productRepository = productRepository;
+        this.orderRepository = orderRepository;
     }
 
     public CartDTO addProduct(Long customerId, Long productId, Integer quantity) {
@@ -75,17 +64,17 @@ public class CartService {
                         .quantity(quantity)
                         .build());
             }
-            return cartMapper.mapToDTO(cartRepository.save(cart)); //, CartDTO.class);
+            return mapper.map(cartRepository.save(cart), CartDTO.class);
         } else {
             final Product product = this.productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Item not found."));
-            return cartMapper.mapToDTO(this.cartRepository.save(Cart.builder()
+            return mapper.map(this.cartRepository.save(Cart.builder()
                 .customerId(customerId)
                 .items(Arrays.asList(CartItem.builder()
                     .product(product)
                     .quantity(quantity)
                     .build()))
-                .build())); //, CartDTO.class);
+                .build()), CartDTO.class);
         }
     }
 
@@ -121,10 +110,10 @@ public class CartService {
                 .customerId(customerId)
                 .build());
 
-        if (cart.getItems()
-            .size() > 0) {
+        if (!cart.getItems()
+            .isEmpty()) {
             // Loading applicable promotions
-            final List<Promotion> applicablePromotions = this.promotionRepository.findAllByActiveTrueAndRequiresVIP(
+            final List<Promotion> applicablePromotions = this.promotionService.findAllActiveForVipStatus(
                 cart.getCustomerIsVIP());
 
             // Calculating the total price
@@ -144,7 +133,7 @@ public class CartService {
                 applicablePromotions);
 
             // Parsing the CartDTO and adding the results
-            final CartDTO cartDTO = cartMapper.mapToDTO(cart); //, CartDTO.class);
+            final CartDTO cartDTO = mapper.map(cart, CartDTO.class);
             cartDTO.setTotalPrice(totalPrice);
             cartDTO.setTotalDiscount(vipDiscount.compareTo(itemDiscount) > 0 ? vipDiscount : itemDiscount);
             cartDTO.setFinalPrice(cartDTO.getTotalPrice()
@@ -152,24 +141,24 @@ public class CartService {
 
             return cartDTO;
         }
-        return cartMapper.mapToDTO(cart); //, CartDTO.class);
+        return mapper.map(cart, CartDTO.class);
     }
 
     public void checkout(Long customerId) {
         // Checkout will be called to parse the current cart into an order.
         final CartDTO cart = loadCart(customerId);
 
-        if (cart.getItems()
-            .size() > 0) {
-            final Order order = Order.builder()
+        if (!cart.getItems()
+            .isEmpty()) {
+            orderRepository.save(Order.builder()
                 .items(cart.getItems()
                     .stream()
                     .map(item -> OrderItem.builder()
-                        .product(productMapper.mapToEntity(item.getProduct())) //, Product.class))
+                        .product(mapper.map(item.getProduct(), Product.class))
                         .quantity(item.getQuantity())
                         .build())
                     .toList())
-                .build();
+                .build());
         } else {
             throw new RuntimeException("Cannot checkout an empty cart!");
         }
