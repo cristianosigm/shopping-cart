@@ -3,59 +3,37 @@ import cs.home.shopping.exception.ItemNotFoundException
 import cs.home.shopping.model.entity.Product
 import cs.home.shopping.model.repository.ProductRepository
 import cs.home.shopping.service.ProductService
+import cs.home.shopping.shared.BaseTest
 import org.modelmapper.ModelMapper
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import spock.lang.Specification
-import spock.lang.Subject
 
-@SpringBootTest
-class ProductServiceTest extends Specification {
+class ProductServiceTest extends BaseTest {
 
-    @Autowired
-    ProductRepository productRepository
+    final productRepository = Mock(ProductRepository)
+    final mapper = new ModelMapper()
+    final productService = new ProductService(productRepository, mapper)
 
-    @Autowired
-    ModelMapper mapper
-
-    @Subject
-    ProductService productService
-
-    def setup() {
-        productService = new ProductService(productRepository, mapper)
-    }
+    def products = Arrays.asList(shirt, jeans, dress)
 
     def "test findAll"() {
         given:
-        List<Product> products = [
-                new Product(id: 1, name: "Product 1", price: 10.0),
-                new Product(id: 2, name: "Product 2", price: 20.0)
-        ]
         productRepository.findAll() >> products
 
         when:
         List<ProductDTO> result = productService.findAll()
 
         then:
-        result.size() == 2
-        result[0].id == 1
-        result[0].name == "Product 1"
-        result[0].price == 10.0
-        result[1].id == 2
-        result[1].name == "Product 2"
-        result[1].price == 20.0
+        result.size() == 3
+        result.get(0).getId() == 1
+        result.get(0).getName() == "T-Shirt"
+        result.get(0).getPrice() == 35.99
+        result.get(0).getId() == 2
+        result.get(0).getName() == "Jeans"
+        result.get(0).getPrice() == 65.50
     }
 
     def "test addAll"() {
         given:
-        List<ProductDTO> productDTOs = [
-                new ProductDTO(id: 1, name: "Product 1", price: 10.0),
-                new ProductDTO(id: 2, name: "Product 2", price: 20.0)
-        ]
-        List<Product> products = [
-                new Product(id: 1, name: "Product 1", price: 10.0),
-                new Product(id: 2, name: "Product 2", price: 20.0)
-        ]
+        def request = Arrays
         productRepository.saveAll(_) >> products
 
         when:

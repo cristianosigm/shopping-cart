@@ -1,12 +1,24 @@
 package cs.home.shopping.shared
 
-import cs.home.shopping.model.entity.CartItem
-import cs.home.shopping.model.entity.Customer
-import cs.home.shopping.model.entity.Product
-import cs.home.shopping.model.entity.Promotion
+import cs.home.shopping.model.entity.*
 import spock.lang.Specification
 
 abstract class BaseTest extends Specification {
+
+    def orderItemsOne = Arrays.asList(
+            OrderItem.builder()
+                    .id(1)
+                    .orderId(1)
+                    .product(jeans)
+                    .quantity(1)
+                    .build()
+    )
+
+    def customerVIP = Customer.builder()
+            .id(1)
+            .name("Mocked Customer VIP")
+            .isVIP(true)
+            .build()
 
     def customerRegular = Customer.builder()
             .id(2L)
@@ -40,7 +52,6 @@ abstract class BaseTest extends Specification {
         if (numberOfDresses > 0) {
             items.add(CartItem.builder()
                     .id(100)
-                    .cartId(1)
                     .product(dress)
                     .quantity(numberOfDresses)
                     .build())
@@ -48,7 +59,6 @@ abstract class BaseTest extends Specification {
         if (numberOfJeans > 0) {
             items.add(CartItem.builder()
                     .id(200)
-                    .cartId(1)
                     .product(jeans)
                     .quantity(numberOfJeans)
                     .build())
@@ -56,7 +66,6 @@ abstract class BaseTest extends Specification {
         if (numberOfShirts > 0) {
             items.add(CartItem.builder()
                     .id(300)
-                    .cartId(1)
                     .product(shirt)
                     .quantity(numberOfShirts)
                     .build())
@@ -75,7 +84,7 @@ abstract class BaseTest extends Specification {
                         .build(),
 
                 Promotion.builder()
-                        .id(2)
+                        .id(2L)
                         .name("Get 3 for the price of 2")
                         .description("When purchasing 3 or more items, one is free.")
                         .minimumQuantity(3)
