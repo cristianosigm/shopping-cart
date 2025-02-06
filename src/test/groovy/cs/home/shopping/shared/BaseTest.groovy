@@ -8,12 +8,6 @@ import spock.lang.Specification
 
 abstract class BaseTest extends Specification {
 
-//    def customerVIP = Customer.builder()
-//            .id(1L)
-//            .name("Mocked Customer VIP")
-//            .isVIP(true)
-//            .build()
-
     def customerRegular = Customer.builder()
             .id(2L)
             .name("Mocked Customer Regular")
@@ -41,7 +35,7 @@ abstract class BaseTest extends Specification {
             .price(BigDecimal.valueOf(80.75))
             .build()
 
-    private generateItems(int numberOfDresses, int numberOfJeans, int numberOfShirts) {
+    protected generateItems(int numberOfDresses, int numberOfJeans, int numberOfShirts) {
         final List<CartItem> items = new ArrayList<>()
         if (numberOfDresses > 0) {
             items.add(CartItem.builder()
@@ -70,7 +64,7 @@ abstract class BaseTest extends Specification {
         return items
     }
 
-    private generatePromotions() {
+    protected generatePromotions() {
         return Arrays.asList(
                 Promotion.builder()
                         .id(1)

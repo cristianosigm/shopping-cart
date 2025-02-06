@@ -25,5 +25,4 @@ public class ProductDTO {
 
     @NotNull
     private BigDecimal price;
-
 }

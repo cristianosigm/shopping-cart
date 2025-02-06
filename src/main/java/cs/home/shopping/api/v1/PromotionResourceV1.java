@@ -18,5 +18,4 @@ public interface PromotionResourceV1 {
 
     @PostMapping
     ResponseEntity<PromotionDTO> save(@RequestBody @Valid PromotionDTO promotion);
-
 }

@@ -14,5 +14,4 @@ public class SuccessResponseDTO {
     private String message;
 
     private String details;
-
 }

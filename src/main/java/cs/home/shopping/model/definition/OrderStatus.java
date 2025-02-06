@@ -1,9 +1,8 @@
 package cs.home.shopping.model.definition;
 
 public enum OrderStatus {
-    OPEN,
-    POSTED,
-    PAID,
-    SHIPPED,
+    PENDING_PAYMENT,
+    PENDING_SHIPMENT,
+    PENDING_DELIVERY,
     CLOSED
 }

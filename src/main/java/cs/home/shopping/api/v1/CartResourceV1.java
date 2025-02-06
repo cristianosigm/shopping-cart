@@ -9,18 +9,20 @@ import org.springframework.web.bind.annotation.*;
 public interface CartResourceV1 {
 
     @PostMapping("/product/{productId}/quantity/{quantity}")
-    ResponseEntity<SuccessResponseDTO> addProduct(@RequestHeader("customerId") Long customerId, @PathVariable("productId") Long productId, @PathVariable("quantity") Integer quantity);
+    ResponseEntity<SuccessResponseDTO> addProduct(@RequestHeader("customerId") Long customerId,
+                                                  @PathVariable("productId") Long productId,
+                                                  @PathVariable("quantity") Integer quantity);
 
-    @DeleteMapping("/{id}/product/{productId}")
-    ResponseEntity<SuccessResponseDTO> removeProduct(Long customerId, Long productId);
+    @DeleteMapping("/product/{productId}")
+    ResponseEntity<SuccessResponseDTO> removeProduct(@RequestHeader("customerId") Long customerId,
+                                                     @PathVariable("productId") Long productId);
 
-    @DeleteMapping("/{id}")
-    ResponseEntity<SuccessResponseDTO> clearCart(Long customerId);
+    @DeleteMapping
+    ResponseEntity<SuccessResponseDTO> clearCart(@RequestHeader("customerId") Long customerId);
 
-    @GetMapping("/{id}")
-    ResponseEntity<CartDTO> loadCart(Long customerId);
+    @GetMapping
+    ResponseEntity<CartDTO> loadCart(@RequestHeader("customerId") Long customerId);
 
-    @PutMapping("/{id}/checkout")
-    ResponseEntity<SuccessResponseDTO> checkout(Long customerId);
-
+    @PutMapping("/checkout")
+    ResponseEntity<SuccessResponseDTO> checkout(@RequestHeader("customerId") Long customerId);
 }

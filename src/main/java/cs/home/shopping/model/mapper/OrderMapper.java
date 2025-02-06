@@ -19,7 +19,9 @@ public class OrderMapper {
     }
 
     public List<OrderDTO> mapToDTO(List<Order> items) {
-        return items.stream().map(this::mapToDTO).toList();
+        return items.stream()
+            .map(this::mapToDTO)
+            .toList();
     }
 
     public OrderDTO mapToDTO(Order item) {

@@ -21,7 +21,7 @@ public class CartItem {
 
     private Long cartId;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     @JoinColumn(name = "productId", referencedColumnName = "id")
     private Product product;
 
@@ -32,5 +32,4 @@ public class CartItem {
     @NotNull
     @Builder.Default
     private BigDecimal discount = BigDecimal.ZERO;
-
 }

@@ -19,7 +19,9 @@ public class CustomerMapper {
     }
 
     public List<CustomerDTO> mapToDTO(List<Customer> items) {
-        return items.stream().map(this::mapToDTO).toList();
+        return items.stream()
+            .map(this::mapToDTO)
+            .toList();
     }
 
     public CustomerDTO mapToDTO(Customer item) {

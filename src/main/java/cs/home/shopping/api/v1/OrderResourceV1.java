@@ -20,5 +20,4 @@ public interface OrderResourceV1 extends ReadResourceV1, DeleteResourceV1 {
 
     @GetMapping("/by-customer/{id}")
     ResponseEntity<List<OrderDTO>> findByCustomerId(Long customerId);
-
 }

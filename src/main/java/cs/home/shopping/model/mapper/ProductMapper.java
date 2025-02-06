@@ -19,7 +19,9 @@ public class ProductMapper {
     }
 
     public List<ProductDTO> mapToDTO(List<Product> items) {
-        return items.stream().map(this::mapToDTO).toList();
+        return items.stream()
+            .map(this::mapToDTO)
+            .toList();
     }
 
     public ProductDTO mapToDTO(Product item) {
@@ -27,11 +29,12 @@ public class ProductMapper {
     }
 
     public List<Product> mapToEntity(List<ProductDTO> items) {
-        return items.stream().map(this::mapToEntity).toList();
+        return items.stream()
+            .map(this::mapToEntity)
+            .toList();
     }
 
     public Product mapToEntity(ProductDTO item) {
         return this.mapper.map(item, Product.class);
     }
-
 }

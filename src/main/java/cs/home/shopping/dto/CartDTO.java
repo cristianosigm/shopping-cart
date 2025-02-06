@@ -32,5 +32,4 @@ public class CartDTO {
 
     @Builder.Default
     private BigDecimal finalPrice = BigDecimal.ZERO;
-
 }

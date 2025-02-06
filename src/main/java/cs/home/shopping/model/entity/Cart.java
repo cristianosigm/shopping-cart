@@ -32,5 +32,4 @@ public class Cart {
     @JoinColumn(name = "cartId")
     @Builder.Default
     private List<CartItem> items = new ArrayList<>();
-
 }

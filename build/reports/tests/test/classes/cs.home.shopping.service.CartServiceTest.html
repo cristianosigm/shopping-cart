@@ -23,7 +23,7 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">14</div>
+<div class="counter">11</div>
 <p>tests</p>
 </div>
 </td>
@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.173s</div>
+<div class="counter">0.152s</div>
 <p>duration</p>
 </div>
 </td>
@@ -63,9 +63,6 @@
 <li>
 <a href="#tab0">Tests</a>
 </li>
-<li>
-<a href="#tab1">Standard output</a>
-</li>
 </ul>
 <div id="tab0" class="tab">
 <h2>Tests</h2>
@@ -84,82 +81,55 @@
 </tr>
 <tr>
 <td class="success">(ALL) when a VIP Customer adds 3 dresses to cart then total should be 161.50</td>
-<td class="success">0.010s</td>
+<td class="success">0.017s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">(ALL) when a VIP Customer adds 4 shirts and 1 jeans to cart then total should be 173.47</td>
-<td class="success">0.006s</td>
+<td class="success">0.007s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">(ALL) when a regular Customer adds 2 shirts and 2 jeans to cart then total should be 166.99</td>
-<td class="success">0.009s</td>
+<td class="success">0.010s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">(ALL) when a regular Customer adds 3 shirts to cart then total should be 71.98</td>
-<td class="success">0.087s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">(S1) when a regular Customer adds 3 shirts to cart then total should be 71.98</td>
-<td class="success">0.018s</td>
+<td class="success">0.085s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">when Products has 1 items and Customer is not VIP then Discount should be 0</td>
-<td class="success">0.019s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">when Products has 2 items and Customer is not VIP then Discount should be 0</td>
-<td class="success">0.001s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">when Products has 3 items and Customer is not VIP then Discount should be 100</td>
-<td class="success">0.001s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">when adding 1 items of Product 1 with vipUSER equals true then the discount should be true </td>
-<td class="success">0.003s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">when adding 3 items of Product 2 with vipUSER equals true then the discount should be true </td>
-<td class="success">0s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">when adding a product that was already added then increase quantity</td>
 <td class="success">0.011s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">when removing 1 items of Product 1 then result should be true </td>
+<td class="success">when Products has 2 items and Customer is not VIP then Discount should be 0</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">when Products has 3 items and Customer is not VIP then Discount should be 100</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">when adding   [productId: 1, qty: 1, result: true, #0]</td>
+<td class="success">0.003s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">when adding   [productId: 2, qty: 3, result: true, #1]</td>
 <td class="success">0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">when removing 3 items of Product 2 then result should be true </td>
-<td class="success">0s</td>
+<td class="success">when adding a product that was already added then increase quantity</td>
+<td class="success">0.007s</td>
 <td class="success">passed</td>
 </tr>
 </table>
-</div>
-<div id="tab1" class="tab">
-<h2>Standard output</h2>
-<span class="code">
-<pre>15:36:10.007 [Test worker] INFO cs.home.shopping.service.CartService --  &gt;&gt;&gt;&gt; RESULTS: vipDiscount = 0, itemDiscount = 35.99; totalPrice = 107.97
-15:36:10.033 [Test worker] INFO cs.home.shopping.service.CartService --  &gt;&gt;&gt;&gt; RESULTS: vipDiscount = 0, itemDiscount = 35.99; totalPrice = 202.98
-15:36:10.046 [Test worker] INFO cs.home.shopping.service.CartService --  &gt;&gt;&gt;&gt; RESULTS: vipDiscount = 36.3375, itemDiscount = 80.75; totalPrice = 242.25
-15:36:10.055 [Test worker] INFO cs.home.shopping.service.CartService --  &gt;&gt;&gt;&gt; RESULTS: vipDiscount = 43.8750, itemDiscount = 65.5; totalPrice = 292.50
-15:36:10.064 [Test worker] INFO cs.home.shopping.service.CartService --  &gt;&gt;&gt;&gt; RESULTS: vipDiscount = 31.4190, itemDiscount = 35.99; totalPrice = 209.46
-15:36:10.085 [Test worker] INFO cs.home.shopping.service.CartService --  &gt;&gt;&gt;&gt; RESULTS: vipDiscount = 16.1955, itemDiscount = 35.99; totalPrice = 107.97
-</pre>
-</span>
 </div>
 </div>
 <div id="footer">
@@ -169,7 +139,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 8.12.1</a> at Feb 5, 2025, 3:36:10 PM</p>
+<a href="http://www.gradle.org">Gradle 8.12.1</a> at Feb 5, 2025, 8:03:01 PM</p>
 </div>
 </div>
 </body>

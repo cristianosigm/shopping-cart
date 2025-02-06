@@ -19,6 +19,5 @@ public class OrderDTO {
     private List<OrderItemDTO> items;
 
     @Builder.Default
-    private OrderStatus status = OrderStatus.OPEN;
-
+    private OrderStatus status = OrderStatus.PENDING_PAYMENT;
 }

@@ -12,5 +12,4 @@ public interface ReadResourceV1 {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<?> findById(@PathVariable(value = "id") Integer id);
-
 }

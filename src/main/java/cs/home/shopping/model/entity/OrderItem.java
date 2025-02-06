@@ -1,9 +1,8 @@
 package cs.home.shopping.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
-
-import java.math.BigDecimal;
 
 @Entity
 @Getter
@@ -18,14 +17,12 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private Long orderId;
 
-    private Long productId;
-
-    private String productName;
+    @OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+    @JoinColumn(name = "productId", referencedColumnName = "id")
+    private Product product;
 
     private Integer quantity;
-
-    private BigDecimal unitPrice;
-
 }

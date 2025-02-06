@@ -19,7 +19,9 @@ public class PromotionMapper {
     }
 
     public List<PromotionDTO> mapToDTO(List<Promotion> items) {
-        return items.stream().map(this::mapToDTO).toList();
+        return items.stream()
+            .map(this::mapToDTO)
+            .toList();
     }
 
     public PromotionDTO mapToDTO(Promotion item) {
@@ -27,11 +29,12 @@ public class PromotionMapper {
     }
 
     public List<Promotion> mapToEntity(List<PromotionDTO> items) {
-        return items.stream().map(this::mapToEntity).toList();
+        return items.stream()
+            .map(this::mapToEntity)
+            .toList();
     }
 
     public Promotion mapToEntity(PromotionDTO item) {
         return this.mapper.map(item, Promotion.class);
     }
-
 }

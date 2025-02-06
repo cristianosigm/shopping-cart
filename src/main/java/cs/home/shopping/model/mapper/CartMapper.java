@@ -19,5 +19,4 @@ public class CartMapper {
     public CartDTO mapToDTO(Cart item) {
         return this.mapper.map(item, CartDTO.class);
     }
-
 }

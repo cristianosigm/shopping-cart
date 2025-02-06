@@ -2,7 +2,6 @@ package cs.home.shopping.service
 
 import cs.home.shopping.dto.CartDTO
 import cs.home.shopping.model.entity.Cart
-import cs.home.shopping.model.mapper.CartMapper
 import cs.home.shopping.model.mapper.PromotionMapper
 import cs.home.shopping.model.repository.CartRepository
 import cs.home.shopping.model.repository.ProductRepository
@@ -12,7 +11,7 @@ import org.modelmapper.ModelMapper
 
 class CartServiceTest extends BaseTest {
 
-    def cartMapper = new CartMapper(new ModelMapper())
+//    def cartMapper = new CartMapper(new ModelMapper())
     def promotionMapper = new PromotionMapper(new ModelMapper())
 
     def cartRepository = Mock(CartRepository)
@@ -20,8 +19,8 @@ class CartServiceTest extends BaseTest {
     def productRepository = Mock(ProductRepository)
 
     def promotionService = new PromotionService(promotionRepository, promotionMapper)
-    def cartService = new CartService(cartMapper, cartRepository, promotionMapper, promotionService, promotionRepository, productRepository)
-    
+    def cartService = new CartService(cartRepository, promotionService, promotionRepository, productRepository)
+
     def promotions = generatePromotions()
 
     // Challenge tests
@@ -51,18 +50,8 @@ class CartServiceTest extends BaseTest {
         "VIP"        | "4 shirts and 1 jeans"  | true  | 0           | 1         | 4          | 173.47
     }
 
-    // Additional Tests
-    def "when adding #qty items of Product #productId with vipUSER equals #isvip then the discount should be #result "() {
-        expect:
-        1 == 1
-
-        where:
-        productId | qty | isvip | result
-        1         | 1   | true  | true
-        2         | 3   | true  | true
-    }
-
-    def "when removing #qty items of Product #productId then result should be #result "() {
+    // Additional tests
+    def "when adding  "() {
         given:
         // declare the amount of products here
 

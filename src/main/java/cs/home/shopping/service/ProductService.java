@@ -27,6 +27,5 @@ public class ProductService {
     public List<ProductDTO> addAll(List<ProductDTO> items) {
         return this.mapper.mapToDTO(this.productRepository.saveAll(this.mapper.mapToEntity(items)));
     }
-
 }
 

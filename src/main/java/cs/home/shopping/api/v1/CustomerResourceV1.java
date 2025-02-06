@@ -13,5 +13,4 @@ public interface CustomerResourceV1 extends ReadResourceV1 {
 
     @PostMapping
     ResponseEntity<?> save(@RequestBody @Valid CustomerDTO item);
-
 }

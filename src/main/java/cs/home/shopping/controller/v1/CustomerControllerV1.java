@@ -35,5 +35,4 @@ public class CustomerControllerV1 implements CustomerResourceV1 {
     public ResponseEntity<CustomerDTO> save(@RequestBody @Valid CustomerDTO item) {
         return ResponseEntity.ok(this.customerService.save(item));
     }
-
 }

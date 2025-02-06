@@ -19,7 +19,9 @@ public class CartItemMapper {
     }
 
     public List<CartItemDTO> mapToDTO(List<CartItem> items) {
-        return items.stream().map(this::mapToDTO).toList();
+        return items.stream()
+            .map(this::mapToDTO)
+            .toList();
     }
 
     public CartItemDTO mapToDTO(CartItem item) {
@@ -27,7 +29,9 @@ public class CartItemMapper {
     }
 
     public List<CartItem> mapToEntity(List<CartItemDTO> items) {
-        return items.stream().map(this::mapToEntity).toList();
+        return items.stream()
+            .map(this::mapToEntity)
+            .toList();
     }
 
     public CartItem mapToEntity(CartItemDTO item) {

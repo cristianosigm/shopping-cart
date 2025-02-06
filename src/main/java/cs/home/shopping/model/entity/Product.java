@@ -29,5 +29,4 @@ public class Product {
     @NotNull
     @Builder.Default
     private BigDecimal price = BigDecimal.ZERO;
-
 }

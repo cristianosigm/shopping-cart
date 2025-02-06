@@ -27,5 +27,4 @@ public class CustomerService {
     public List<CustomerDTO> findAll() {
         return this.mapper.mapToDTO(this.customerRepository.findAll());
     }
-
 }

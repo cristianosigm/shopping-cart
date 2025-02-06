@@ -9,5 +9,4 @@ public interface DeleteResourceV1 {
 
     @DeleteMapping(value = "/by-id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<?> deleteById(@PathVariable(value = "id") Integer id);
-
 }

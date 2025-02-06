@@ -1,4 +1,5 @@
 # Read Me First
+
 The following was discovered as part of building this project:
 
 * The original package name 'cs.home.shopping-cart' is invalid and this project uses 'cs.home.shopping' instead.
@@ -6,6 +7,7 @@ The following was discovered as part of building this project:
 # Getting Started
 
 ### Reference Documentation
+
 For further reference, please consider the following sections:
 
 * [Official Gradle documentation](https://docs.gradle.org)
@@ -18,6 +20,7 @@ For further reference, please consider the following sections:
 * [Groovy Templates](https://docs.spring.io/spring-boot/3.4.2/reference/web/servlet.html#web.servlet.spring-mvc.template-engines)
 
 ### Guides
+
 The following guides illustrate how to use some features concretely:
 
 * [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
@@ -27,6 +30,7 @@ The following guides illustrate how to use some features concretely:
 * [Validation](https://spring.io/guides/gs/validating-form-input/)
 
 ### Additional Links
+
 These additional references should also help you:
 
 * [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
