@@ -1,93 +1,65 @@
 import cs.home.shopping.controller.v1.CartControllerV1
 import cs.home.shopping.dto.CartDTO
-import cs.home.shopping.dto.response.SuccessResponseDTO
 import cs.home.shopping.service.CartService
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
+import cs.home.shopping.shared.BaseTest
+import org.modelmapper.ModelMapper
 import org.springframework.http.ResponseEntity
-import spock.lang.Specification
-import spock.lang.Subject
 
-@SpringBootTest
-class CartControllerV1Test extends Specification {
+class CartControllerV1Test extends BaseTest {
 
-    @Autowired
-    CartService cartService
+    final mapper = new ModelMapper()
+    final cartService = Mock(CartService)
+    final cartControllerV1 = new CartControllerV1(cartService)
 
-    @Subject
-    CartControllerV1 cartControllerV1
-
-    def setup() {
-        cartControllerV1 = new CartControllerV1(cartService)
-    }
-
-    def "test addProduct"() {
-        given:
-        Long customerId = 1L
-        Long productId = 1L
-        Integer quantity = 2
-
+    def "when addProduct is hit then return a valid result"() {
         when:
-        ResponseEntity<SuccessResponseDTO> response = cartControllerV1.addProduct(customerId, productId, quantity)
+        final result = cartControllerV1.addProduct(1, 1, 1)
 
         then:
-        1 * cartService.addProduct(customerId, productId, quantity)
-        response.statusCode.value() == 200
-        response.body.message == "Product added."
+        1 * cartService.addProduct(1, 1, 1)
+        result.statusCode.value() == 200
+        result.body.message == "Product added."
     }
 
-    def "test removeProduct"() {
-        given:
-        Long customerId = 1L
-        Long productId = 1L
-
+    def "when removeProduct is hit then return a valid result"() {
         when:
-        ResponseEntity<SuccessResponseDTO> response = cartControllerV1.removeProduct(customerId, productId)
+        final result = cartControllerV1.removeProduct(1, 2)
 
         then:
-        1 * cartService.removeProduct(customerId, productId)
-        response.statusCode.value() == 200
-        response.body.message == "Product removed."
+        1 * cartService.removeProduct(1, 2)
+        result.statusCode.value() == 200
+        result.body.message == "Product removed."
     }
 
-    def "test clearCart"() {
-        given:
-        Long customerId = 1L
-
+    def "when clearCart is hit then return a valid result"() {
         when:
-        ResponseEntity<SuccessResponseDTO> response = cartControllerV1.clearCart(customerId)
+        final result = cartControllerV1.clearCart(1)
 
         then:
-        1 * cartService.clearCart(customerId)
-        response.statusCode.value() == 200
-        response.body.message == "Cart successfully cleared."
+        1 * cartService.clearCart(1)
+        result.statusCode.value() == 200
+        result.body.message == "Cart successfully cleared."
     }
 
-    def "test loadCart"() {
+    def "when loadCart is hit then return a valid cart"() {
         given:
-        Long customerId = 1L
-        CartDTO cartDTO = new CartDTO()
-        cartService.loadCart(customerId) >> cartDTO
+        cartService.loadCart(_ as Long) >> mapper.map(cartVIP, CartDTO)
 
         when:
-        ResponseEntity<CartDTO> response = cartControllerV1.loadCart(customerId)
+        final ResponseEntity<CartDTO> result = cartControllerV1.loadCart(1)
 
         then:
-        1 * cartService.loadCart(customerId)
-        response.statusCode.value() == 200
-        response.body == cartDTO
+        1 * cartService.loadCart(1)
+        result.statusCode.value() == 200
     }
 
-    def "test checkout"() {
-        given:
-        Long customerId = 1L
-
+    def "when checkout is hit then return a valid result"() {
         when:
-        ResponseEntity<SuccessResponseDTO> response = cartControllerV1.checkout(customerId)
+        final result = cartControllerV1.checkout(4)
 
         then:
-        1 * cartService.checkout(customerId)
-        response.statusCode.value() == 200
-        response.body.message == "Checkout operation successful."
+        1 * cartService.checkout(4)
+        result.statusCode.value() == 200
+        result.body.message == "Checkout operation successful."
     }
 }

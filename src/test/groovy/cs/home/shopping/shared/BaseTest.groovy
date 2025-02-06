@@ -5,12 +5,43 @@ import spock.lang.Specification
 
 abstract class BaseTest extends Specification {
 
+    def cartVIP = Cart.builder()
+            .id(1)
+            .customerId(1)
+            .items(Arrays.asList(CartItem.builder()
+                    .id(1)
+                    .product(shirt)
+                    .quantity(1)
+                    .build(),
+                    CartItem.builder()
+                            .id(1)
+                            .product(jeans)
+                            .quantity(1)
+                            .build()))
+            .customerIsVIP(Boolean.TRUE)
+            .build()
+
     def orderItemsOne = Arrays.asList(
             OrderItem.builder()
                     .id(1)
                     .orderId(1)
                     .product(jeans)
                     .quantity(1)
+                    .build()
+    )
+
+    def orderItemsTwo = Arrays.asList(
+            OrderItem.builder()
+                    .id(1)
+                    .orderId(1)
+                    .product(jeans)
+                    .quantity(1)
+                    .build(),
+            OrderItem.builder()
+                    .id(1)
+                    .orderId(1)
+                    .product(shirt)
+                    .quantity(3)
                     .build()
     )
 
@@ -21,7 +52,7 @@ abstract class BaseTest extends Specification {
             .build()
 
     def customerRegular = Customer.builder()
-            .id(2L)
+            .id(2)
             .name("Mocked Customer Regular")
             .isVIP(false)
             .build()
@@ -45,6 +76,31 @@ abstract class BaseTest extends Specification {
             .name("Dress")
             .description("A nice dress!")
             .price(BigDecimal.valueOf(80.75))
+            .build()
+
+    def promotionVIP = Promotion.builder()
+            .id(1)
+            .name("VIP Discount")
+            .description("15% off for VIPs")
+            .discountPercent(BigDecimal.valueOf(15))
+            .requiresVIP(Boolean.TRUE)
+            .build()
+
+    def promotionItems = Promotion.builder()
+            .id(2)
+            .name("Get 3 pay 2")
+            .description("One item free when buying 3 or more")
+            .minimumQuantity(3)
+            .freeItems(1)
+            .build()
+
+    def promotionInactive = Promotion.builder()
+            .id(3)
+            .name("Inactive")
+            .description("Old promotion no longer active")
+            .minimumQuantity(3)
+            .freeItems(1)
+            .active(Boolean.FALSE)
             .build()
 
     protected generateItems(int numberOfDresses, int numberOfJeans, int numberOfShirts) {

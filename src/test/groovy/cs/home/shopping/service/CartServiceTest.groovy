@@ -9,18 +9,18 @@ import org.modelmapper.ModelMapper
 
 class CartServiceTest extends BaseTest {
 
-    def mapper = new ModelMapper()
-    def cartRepository = Mock(CartRepository)
-    def cartItemRepository = Mock(CartItemRepository)
-    def promotionRepository = Mock(PromotionRepository)
-    def productRepository = Mock(ProductRepository)
-    def orderRepository = Mock(OrderRepository)
+    final mapper = new ModelMapper()
+    final cartRepository = Mock(CartRepository)
+    final cartItemRepository = Mock(CartItemRepository)
+    final promotionRepository = Mock(PromotionRepository)
+    final productRepository = Mock(ProductRepository)
+    final orderRepository = Mock(OrderRepository)
 
-    def promotionService = new PromotionService(promotionRepository, mapper)
-    def cartService = new CartService(cartRepository, cartItemRepository, promotionService, productRepository,
+    final promotionService = new PromotionService(promotionRepository, mapper)
+    final cartService = new CartService(cartRepository, cartItemRepository, promotionService, productRepository,
             orderRepository, mapper)
 
-    def promotions = generatePromotions()
+    final promotions = generatePromotions()
 
     // Challenge tests
     def "when a #customerType Customer adds #items to cart then total should be #expected"() {
@@ -58,7 +58,7 @@ class CartServiceTest extends BaseTest {
                 .product(shirt)
                 .quantity(1)
                 .build())
-
+        
         cartRepository.findByCustomerId(_ as Long) >> Optional.of(Cart.builder()
                 .id(1)
                 .customerId(1)

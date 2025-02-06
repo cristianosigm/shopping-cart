@@ -1,0 +1,4 @@
+$y20:10:58.054 [Test worker] INFO cs.home.shopping.service.CartService -- Adding productId 2 (quantity: 1) on current cart
+$b20:10:58.059 [Test worker] INFO cs.home.shopping.service.CartService -- Item not found, adding it
+%y20:10:58.069 [Test worker] INFO cs.home.shopping.service.CartService -- Adding productId 1 (quantity: 1) on current cart
+%h20:10:58.069 [Test worker] INFO cs.home.shopping.service.CartService -- Item found, increasing quantity

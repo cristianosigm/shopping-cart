@@ -1,6 +1,5 @@
 import cs.home.shopping.dto.ProductDTO
 import cs.home.shopping.exception.ItemNotFoundException
-import cs.home.shopping.model.entity.Product
 import cs.home.shopping.model.repository.ProductRepository
 import cs.home.shopping.service.ProductService
 import cs.home.shopping.shared.BaseTest
@@ -12,67 +11,64 @@ class ProductServiceTest extends BaseTest {
     final mapper = new ModelMapper()
     final productService = new ProductService(productRepository, mapper)
 
-    def products = Arrays.asList(shirt, jeans, dress)
+    final products = Arrays.asList(shirt, jeans, dress)
 
-    def "test findAll"() {
+    def "when querying all products then return all"() {
         given:
         productRepository.findAll() >> products
 
         when:
-        List<ProductDTO> result = productService.findAll()
+        final result = productService.findAll()
 
         then:
-        result.size() == 3
-        result.get(0).getId() == 1
-        result.get(0).getName() == "T-Shirt"
-        result.get(0).getPrice() == 35.99
-        result.get(0).getId() == 2
-        result.get(0).getName() == "Jeans"
-        result.get(0).getPrice() == 65.50
+        resultMatchesExpected(result.get(0), mapper.map(products.get(0), ProductDTO))
+        resultMatchesExpected(result.get(1), mapper.map(products.get(1), ProductDTO))
+        resultMatchesExpected(result.get(2), mapper.map(products.get(2), ProductDTO))
     }
 
-    def "test addAll"() {
+    def "when saving a valid set of products then success"() {
         given:
-        def request = Arrays
-        productRepository.saveAll(_) >> products
+        final request = products
+                .stream()
+                .map(it -> mapper.map(it, ProductDTO))
+                .toList()
+        productRepository.saveAll(_ as List<ProductDTO>) >> products
 
         when:
-        List<ProductDTO> result = productService.addAll(productDTOs)
+        final result = productService.addAll(request)
 
         then:
-        result.size() == 2
-        result[0].id == 1
-        result[0].name == "Product 1"
-        result[0].price == 10.0
-        result[1].id == 2
-        result[1].name == "Product 2"
-        result[1].price == 20.0
+        resultMatchesExpected(result.get(0), request.get(0))
+        resultMatchesExpected(result.get(1), request.get(1))
+        resultMatchesExpected(result.get(2), request.get(2))
     }
 
-    def "test findById"() {
+    def "when querying an existing product by id then return the product"() {
         given:
-        Long productId = 1L
-        Product product = new Product(id: productId, name: "Product 1", price: 10.0)
-        productRepository.findById(productId) >> Optional.of(product)
+        productRepository.findById(_ as Long) >> Optional.of(jeans)
 
         when:
-        ProductDTO result = productService.findById(productId)
+        final result = productService.findById(1)
 
         then:
-        result.id == productId
-        result.name == "Product 1"
-        result.price == 10.0
+        resultMatchesExpected(result, mapper.map(jeans, ProductDTO))
     }
 
-    def "test findById throws ItemNotFoundException"() {
+    def "when fails to find a product by id then throw ItemNotFoundException"() {
         given:
-        Long productId = 1L
-        productRepository.findById(productId) >> Optional.empty()
+        productRepository.findById(_ as Long) >> Optional.empty()
 
         when:
-        productService.findById(productId)
+        productService.findById(1)
 
         then:
         thrown(ItemNotFoundException)
+    }
+
+    private boolean resultMatchesExpected(ProductDTO result, ProductDTO expectedResult) {
+        result.getId() == expectedResult.getId()
+        result.getName() == expectedResult.getName()
+        result.getDescription() == expectedResult.getDescription()
+        result.getPrice() == expectedResult.getPrice()
     }
 }

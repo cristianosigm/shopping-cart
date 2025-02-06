@@ -22,14 +22,15 @@ class OrderServiceTest extends BaseTest {
 
     def orderTwo = Order.builder()
             .id(2)
-            .customer(customerRegular)
-            .items(orderItemsOne)
+            .customer(customerVIP)
+            .items(orderItemsTwo)
             .totalPrice(BigDecimal.valueOf(200))
             .totalDiscount(BigDecimal.ZERO)
             .finalPrice(BigDecimal.valueOf(200))
             .build()
 
-    def "test findAll"() {
+
+    def "when querying all orders then success"() {
         given:
         orderRepository.findAll() >> Arrays.asList(orderOne, orderTwo)
 
@@ -39,10 +40,12 @@ class OrderServiceTest extends BaseTest {
         then:
         result.size() == 2
         result.get(0).getId() == 1
+        result.get(0).getItems().size() == 1
         result.get(1).getId() == 2
+        result.get(1).getItems().size() == 2
     }
 
-    def "test findByCustomerId"() {
+    def "when querying orders by customer then return valid orders"() {
         given:
         orderRepository.findByCustomerId(_ as Long) >> Arrays.asList(orderOne)
 
@@ -52,6 +55,7 @@ class OrderServiceTest extends BaseTest {
         then:
         result.size() == 1
         result.get(0).getId() == 1
+        result.get(0).getItems().size() == 1
         result.get(0).getCustomer().getId() == 2
     }
 }

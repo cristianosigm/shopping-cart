@@ -1,68 +1,44 @@
 package cs.home.shopping.service
 
 import cs.home.shopping.dto.CustomerDTO
-import cs.home.shopping.model.entity.Customer
 import cs.home.shopping.model.repository.CustomerRepository
+import cs.home.shopping.shared.BaseTest
 import org.modelmapper.ModelMapper
-import spock.lang.Specification
 
-class CustomerServiceTest extends Specification {
+class CustomerServiceTest extends BaseTest {
 
-    def repository = Mock(CustomerRepository)
-    def mapper = new ModelMapper()
-    def service = new CustomerService(repository, mapper)
-
-    def validEntity = Customer.builder()
-            .id(1)
-            .name("Mocked Name")
-            .isVIP(true)
-            .build()
-    def validEntityList = Arrays.asList(
-            Customer.builder()
-                    .id(1)
-                    .name("First Mocked Name")
-                    .isVIP(true)
-                    .build(),
-            Customer.builder()
-                    .id(2)
-                    .name("Second Mocked Name")
-                    .isVIP(false)
-                    .build(),
-            Customer.builder()
-                    .id(3)
-                    .name("Third Mocked Name")
-                    .isVIP(true)
-                    .build()
-    )
+    final repository = Mock(CustomerRepository)
+    final mapper = new ModelMapper()
+    final service = new CustomerService(repository, mapper)
 
     def "should save a valid customer"() {
         given:
-        def validCustomer = CustomerDTO.builder().build()
-        repository.save(_) >> validEntity
+        repository.save(_) >> customerRegular
 
         when:
-        def response = service.save(validCustomer)
+        def result = service.save(mapper.map(customerRegular, CustomerDTO))
 
         then:
-        response !== null
-        response.id == validEntity.id
-        response.name == validEntity.name
-        response.isVIP == validEntity.isVIP
+        resultMatchesExpected(result, mapper.map(customerRegular, CustomerDTO))
+
     }
 
     def "should load all customers"() {
         given:
-        repository.findAll() >> validEntityList
+        repository.findAll() >> Arrays.asList(customerVIP, customerRegular)
 
         when:
-        def response = service.findAll()
+        final result = service.findAll()
 
         then:
-        response.size() == 3
-        response.get(0).id == 1
-        response.get(0).isVIP == true
-        response.get(1).id == 2
-        response.get(1).isVIP == false
+        result.size() == 2
+        resultMatchesExpected(result.get(0), mapper.map(customerVIP, CustomerDTO))
+        resultMatchesExpected(result.get(1), mapper.map(customerRegular, CustomerDTO))
     }
 
+    private boolean resultMatchesExpected(CustomerDTO result, CustomerDTO expectedResult) {
+        result.getId() == expectedResult.getId()
+        result.getName() == expectedResult.getName()
+        result.getIsVIP() == expectedResult.getIsVIP()
+    }
 }

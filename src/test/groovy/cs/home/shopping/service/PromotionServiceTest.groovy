@@ -1,131 +1,109 @@
 import cs.home.shopping.dto.PromotionDTO
-import cs.home.shopping.model.entity.CartItem
-import cs.home.shopping.model.entity.Product
 import cs.home.shopping.model.entity.Promotion
 import cs.home.shopping.model.repository.PromotionRepository
 import cs.home.shopping.service.PromotionService
+import cs.home.shopping.shared.BaseTest
 import org.modelmapper.ModelMapper
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import spock.lang.Specification
-import spock.lang.Subject
 
-@SpringBootTest
-class PromotionServiceTest extends Specification {
+class PromotionServiceTest extends BaseTest {
 
-    @Autowired
-    PromotionRepository promotionRepository
+    final promotionRepository = Mock(PromotionRepository)
+    final mapper = new ModelMapper()
+    final promotionService = new PromotionService(promotionRepository, mapper)
 
-    @Autowired
-    ModelMapper mapper
-
-    @Subject
-    PromotionService promotionService
-
-    def setup() {
-        promotionService = new PromotionService(promotionRepository, mapper)
-    }
-
-    def "test save"() {
+    def "when saving a valid promotion then success"() {
         given:
-        PromotionDTO promotionDTO = new PromotionDTO(id: 1, name: "Promo 1", discountPercent: BigDecimal.valueOf(10))
-        Promotion promotion = new Promotion(id: 1, name: "Promo 1", discountPercent: BigDecimal.valueOf(10))
-        promotionRepository.save(_) >> promotion
+        final expectedResult = mapper.map(promotionVIP, PromotionDTO.class)
+        promotionRepository.save(_ as Promotion) >> promotionVIP
 
         when:
-        PromotionDTO result = promotionService.save(promotionDTO)
+        final result = promotionService.save(PromotionDTO.builder().id(1).build())
 
         then:
-        result.id == 1
-        result.name == "Promo 1"
-        result.discountPercent == BigDecimal.valueOf(10)
+        resultMatchesExpected(result, expectedResult)
     }
 
-    def "test findAll"() {
+    def "when querying all promotions then return all"() {
         given:
-        List<Promotion> promotions = [
-                new Promotion(id: 1, name: "Promo 1", discountPercent: BigDecimal.valueOf(10)),
-                new Promotion(id: 2, name: "Promo 2", discountPercent: BigDecimal.valueOf(20))
-        ]
-        promotionRepository.findAll() >> promotions
+        final expectedItem1 = mapper.map(promotionVIP, PromotionDTO)
+        final expectedItem2 = mapper.map(promotionItems, PromotionDTO)
+        final expectedItem3 = mapper.map(promotionInactive, PromotionDTO)
+
+        promotionRepository.findAll() >> Arrays.asList(promotionVIP, promotionItems, promotionInactive)
 
         when:
-        List<PromotionDTO> result = promotionService.findAll()
+        def result = promotionService.findAll()
 
         then:
-        result.size() == 2
-        result[0].id == 1
-        result[0].name == "Promo 1"
-        result[0].discountPercent == BigDecimal.valueOf(10)
-        result[1].id == 2
-        result[1].name == "Promo 2"
-        result[1].discountPercent == BigDecimal.valueOf(20)
+        result.size() == 3
+        resultMatchesExpected(expectedItem1, result.get(0))
+        resultMatchesExpected(expectedItem2, result.get(1))
+        resultMatchesExpected(expectedItem3, result.get(2))
     }
 
-    def "test findAllActiveForVipStatus"() {
+    def "when querying active promotions for VIPs then return applicable only"() {
         given:
-        Boolean customerIsVIP = true
-        List<Promotion> promotions = [
-                new Promotion(id: 1, name: "Promo 1", active: true, requiresVIP: true),
-                new Promotion(id: 2, name: "Promo 2", active: true, requiresVIP: true)
-        ]
-        promotionRepository.findAllByActiveTrueAndRequiresVIP(customerIsVIP) >> promotions
+        promotionRepository.findAllByActiveTrueAndRequiresVIP(_ as Boolean) >> Arrays.asList(promotionVIP)
 
         when:
-        List<Promotion> result = promotionService.findAllActiveForVipStatus(customerIsVIP)
+        final result = promotionService.findAllActiveForVipStatus(true)
 
         then:
-        result.size() == 2
-        result[0].id == 1
-        result[0].name == "Promo 1"
-        result[1].id == 2
-        result[1].name == "Promo 2"
+        result.size() == 1
+        resultMatchesExpected(promotionVIP, result.get(0))
     }
 
-    def "test calculateDiscountBasedOnItems"() {
+    def "when calculating discount on #items for items-based promotion and regular customer then return #expected"() {
         given:
-        List<CartItem> cartItems = [
-                new CartItem(product: new Product(price: BigDecimal.valueOf(10)), quantity: 2),
-                new CartItem(product: new Product(price: BigDecimal.valueOf(20)), quantity: 1)
-        ]
-        List<Promotion> promotions = [
-                new Promotion(id: 1, name: "Promo 1", minimumQuantity: 2)
-        ]
+        final cartItems = generateItems(nrOfDresses, nrOfJeans, nrOfShirts)
+        final promotions = Arrays.asList(promotionVIP, promotionItems)
 
         when:
-        BigDecimal result = promotionService.calculateDiscountBasedOnItems(cartItems, promotions)
+        final result = promotionService.calculateDiscountBasedOnItems(cartItems, promotions)
 
         then:
-        result == BigDecimal.valueOf(10)
+        result == BigDecimal.valueOf(expected)
+
+        where:
+        items                   | nrOfDresses | nrOfJeans | nrOfShirts | expected
+        "2 dresses"             | 2           | 0         | 0          | 0.00
+        "3 shirts"              | 0           | 0         | 3          | 35.99
+        "2 shirts and 2 jeans"  | 0           | 2         | 2          | 35.99
+        "2 dresses and 2 jeans" | 2           | 2         | 0          | 65.50
     }
 
-    def "test calculateDiscountForVIP"() {
+    def "if customer is #userType and spent #totalPrice, the discount for a VIP-based promotion is #discount"() {
         given:
-        Boolean customerIsVIP = true
-        BigDecimal basePrice = BigDecimal.valueOf(100)
-        List<Promotion> promotions = [
-                new Promotion(id: 1, name: "Promo 1", requiresVIP: true, discountPercent: BigDecimal.valueOf(10))
-        ]
+        final promotions = Arrays.asList(promotionVIP, promotionItems)
 
         when:
-        BigDecimal result = promotionService.calculateDiscountForVIP(customerIsVIP, basePrice, promotions)
+        final result = promotionService.calculateDiscountForVIP(isVIP, totalPrice, promotions)
 
         then:
-        result == BigDecimal.valueOf(10)
+        result == BigDecimal.valueOf(discount)
+
+        where:
+        userType  | totalPrice | isVIP | discount
+        "VIP"     | 100.00     | true  | 15.00
+        "VIP"     | 1000.00    | true  | 150.00
+        "regular" | 850.00     | false | 0.00
+
     }
 
-    def "test calculateDiscountForVIP when not VIP"() {
-        given:
-        Boolean customerIsVIP = false
-        BigDecimal basePrice = BigDecimal.valueOf(100)
-        List<Promotion> promotions = [
-                new Promotion(id: 1, name: "Promo 1", requiresVIP: true, discountPercent: BigDecimal.valueOf(10))
-        ]
+    private boolean resultMatchesExpected(Promotion result, Promotion expected) {
+        return resultMatchesExpected(
+                mapper.map(result, PromotionDTO),
+                mapper.map(expected, PromotionDTO),
+        )
+    }
 
-        when:
-        BigDecimal result = promotionService.calculateDiscountForVIP(customerIsVIP, basePrice, promotions)
-
-        then:
-        result == BigDecimal.ZERO
+    private boolean resultMatchesExpected(PromotionDTO result, PromotionDTO expectedResult) {
+        result.getId() == expectedResult.getId()
+        result.getName() == expectedResult.getName()
+        result.getDescription() == expectedResult.getDescription()
+        result.getMinimumQuantity() == expectedResult.getMinimumQuantity()
+        result.getRequiresVIP() == expectedResult.getRequiresVIP()
+        result.getDiscountPercent() == expectedResult.getDiscountPercent()
+        result.getActive() == expectedResult.getActive()
     }
 }
