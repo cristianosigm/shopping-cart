@@ -2,8 +2,9 @@
 
 Hello Jason! Hope you had a great day!
 
-This is my implementation of the challenge proposed (
-available [here](https://potent-afternoon-af0.notion.site/Let-s-code-e0bb97fe29ec45aea71f7c5d9bbd633d)).
+This is my implementation of the challenge proposed (available in the link below):
+
+https://potent-afternoon-af0.notion.site/Let-s-code-e0bb97fe29ec45aea71f7c5d9bbd633d
 
 My goal was to implement something that could be used as a starting point for an actual implementation. Given the
 time restrictions, I had to simplify it, at least for an initial status.
@@ -17,9 +18,9 @@ only in a private repository at my GitHub.
 * I did not implement any product stock validation.
 * In the actual implementation, we would need to transmit the customerId (as well as any customer-related data) in
   properly secure headers.
-* I assumed each cart would not have many items usually, so I used FetchTYpe.EAGER in JPA mappings, as I need them
+* I assumed each cart would usually handle few items, so I used "FetchType.EAGER" in JPA mappings, as I need them
   to be loaded immediately to perform calculations; this could be improved depending on the scenarios we expect in
-  real world.
+  production.
 * The current code has unit tests implemented using Spock with Groovy, but not full coverage.
 
 ## Architectural decisions:
@@ -39,7 +40,7 @@ Additionally, we could implement a TTL on unauthenticated carts at our persisten
 them, ensuring that we do not retain old carts that have no chance of being sold.
 
 Another possibility is to consider Prospect Carts as a different domain, and handle them in a separate microservice.
-This would allow us handling infrastructure settings differently for Customers and Prospects, giving us flexibility
+This would allow handling infrastructure settings differently for Customers and Prospects, giving us flexibility
 to steer our solution according to marketing data, while keeping Customer Carts faster and more stable in the long term.
 
 ![use_case.png](doc/use_case.png)
@@ -57,11 +58,10 @@ In order to just run it, only the Java RE is necessary (17 or higher).
 
 # Running the application
 
-To run this application using the runnable JAR file (sent via e-mail):
+To run this application using the runnable JAR file (available under the "dist" folder), use the following command,
+via terminal, in the same folder as the JAR file:
 
-* Save the JAR file in any folder;
-* Access it via terminal and use the command:
-    * **java -jar ./shopping-cart-0.0.1.jar**
+* **java -jar ./shopping-cart-0.0.1.jar**
 
 # Additional documentation
 
@@ -72,7 +72,7 @@ http://localhost:8083/swagger-ui/index.html
 
 In an actual production-targeting project, I would add details of what each endpoint does, and a better description of
 each attribute (it is always helpful to have this kind of document available, especially because it would be kept
-up-to-date automatically on every change).
+up to date automatically on every change).
 
 Second, an OpenAPI 3.0 definition in JSON, which could also be useful for API automatic mapping. This can be found
 below:
