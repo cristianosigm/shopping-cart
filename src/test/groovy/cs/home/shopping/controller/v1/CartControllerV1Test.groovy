@@ -1,4 +1,5 @@
-import cs.home.shopping.controller.v1.CartControllerV1
+package cs.home.shopping.controller.v1
+
 import cs.home.shopping.dto.CartDTO
 import cs.home.shopping.service.CartService
 import cs.home.shopping.shared.BaseTest
@@ -29,16 +30,6 @@ class CartControllerV1Test extends BaseTest {
         1 * cartService.removeProduct(1, 2)
         result.statusCode.value() == 200
         result.body.message == "Product removed."
-    }
-
-    def "when clearCart is hit then return a valid result"() {
-        when:
-        final result = cartControllerV1.clearCart(1)
-
-        then:
-        1 * cartService.clearCart(1)
-        result.statusCode.value() == 200
-        result.body.message == "Cart successfully cleared."
     }
 
     def "when loadCart is hit then return a valid cart"() {

@@ -5,8 +5,10 @@ spring:
   application:
     name: shopping-cart
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/csdb
+    #driver-class-name: org.postgresql.Driver
+    #url: jdbc:postgresql://localhost:5432/csdb
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:csdb
     username: shoppingadm
     password: obiwan
   devtools:
@@ -14,6 +16,7 @@ spring:
   jackson:
     default-property-inclusion: non_null
   jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create
     open-in-view: false
@@ -21,4 +24,3 @@ spring:
 logging:
   level:
     web: INFO
-

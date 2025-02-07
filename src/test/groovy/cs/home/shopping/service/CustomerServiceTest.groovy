@@ -1,6 +1,7 @@
 package cs.home.shopping.service
 
 import cs.home.shopping.dto.CustomerDTO
+import cs.home.shopping.exception.ItemNotFoundException
 import cs.home.shopping.model.repository.CustomerRepository
 import cs.home.shopping.shared.BaseTest
 import org.modelmapper.ModelMapper
@@ -34,6 +35,28 @@ class CustomerServiceTest extends BaseTest {
         result.size() == 2
         resultMatchesExpected(result.get(0), mapper.map(customerVIP, CustomerDTO))
         resultMatchesExpected(result.get(1), mapper.map(customerRegular, CustomerDTO))
+    }
+
+    def "should load a customer's profile"() {
+        given:
+        repository.findById(_ as Long) >> Optional.of(customerVIP)
+
+        when:
+        final result = service.profile(2)
+
+        then:
+        resultMatchesExpected(result, mapper.map(customerVIP, CustomerDTO))
+    }
+
+    def "when loading an invalid customer then throw a valid exception"() {
+        given:
+        repository.findById(_ as Long) >> Optional.empty()
+
+        when:
+        service.profile(3)
+
+        then:
+        thrown(ItemNotFoundException)
     }
 
     private boolean resultMatchesExpected(CustomerDTO result, CustomerDTO expectedResult) {

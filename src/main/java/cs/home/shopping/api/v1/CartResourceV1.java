@@ -17,9 +17,6 @@ public interface CartResourceV1 {
     ResponseEntity<SuccessResponseDTO> removeProduct(@RequestHeader("customerId") Long customerId,
                                                      @PathVariable("productId") Long productId);
 
-    @DeleteMapping
-    ResponseEntity<SuccessResponseDTO> clearCart(@RequestHeader("customerId") Long customerId);
-
     @GetMapping
     ResponseEntity<CartDTO> loadCart(@RequestHeader("customerId") Long customerId);
 

@@ -1,9 +1,3 @@
-# Read Me First
-
-The following was discovered as part of building this project:
-
-* The original package name 'cs.home.shopping-cart' is invalid and this project uses 'cs.home.shopping' instead.
-
 # Getting Started
 
 ### Reference Documentation

@@ -37,14 +37,6 @@ public class CartControllerV1 implements CartResourceV1 {
     }
 
     @Override
-    public ResponseEntity<SuccessResponseDTO> clearCart(Long customerId) {
-        cartService.clearCart(customerId);
-        return ResponseEntity.ok(SuccessResponseDTO.builder()
-            .message("Cart successfully cleared.")
-            .build());
-    }
-
-    @Override
     public ResponseEntity<CartDTO> loadCart(Long customerId) {
         return ResponseEntity.ok(cartService.loadCart(customerId));
     }

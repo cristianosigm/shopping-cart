@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.math.BigDecimal;
-
 @Entity
 @Getter
 @Setter
@@ -26,8 +24,4 @@ public class CartItem {
     @NotNull
     @Builder.Default
     private Integer quantity = 0;
-
-    @NotNull
-    @Builder.Default
-    private BigDecimal discount = BigDecimal.ZERO;
 }

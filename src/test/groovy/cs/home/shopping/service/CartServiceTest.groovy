@@ -58,7 +58,7 @@ class CartServiceTest extends BaseTest {
                 .product(shirt)
                 .quantity(1)
                 .build())
-        
+
         cartRepository.findByCustomerId(_ as Long) >> Optional.of(Cart.builder()
                 .id(1)
                 .customerId(1)

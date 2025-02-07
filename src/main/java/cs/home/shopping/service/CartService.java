@@ -92,13 +92,6 @@ public class CartService {
         cartRepository.saveAndFlush(cart);
     }
 
-    @Transactional
-    public void clearCart(Long customerId) {
-        log.warn("Removing all items and values from current cart, if exists.");
-        cartRepository.findByCustomerId(customerId)
-            .ifPresent(cart -> cartItemRepository.deleteAll(cart.getItems()));
-    }
-
     public CartDTO loadCart(Long customerId) {
         final Cart cart = cartRepository.findByCustomerId(customerId)
             .orElse(Cart.builder()
