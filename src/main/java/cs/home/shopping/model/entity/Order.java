@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "purchase_order")
+@Table(name = "purchase_order", schema = "shopping_cart")
 public class Order {
 
     @Id

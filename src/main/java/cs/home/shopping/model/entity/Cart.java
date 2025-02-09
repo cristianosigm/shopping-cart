@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "cart")
+@Table(name = "cart", schema = "shopping_cart")
 public class Cart {
 
     @Id

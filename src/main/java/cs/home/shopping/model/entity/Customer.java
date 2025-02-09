@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "customer")
+@Table(name = "customer", schema = "shopping_cart")
 public class Customer {
 
     @Id
